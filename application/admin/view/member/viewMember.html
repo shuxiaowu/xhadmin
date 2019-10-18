@@ -1,0 +1,59 @@
+{extend name='common/_container'}
+{block name="content"}
+<div class="ibox float-e-margins">
+	<div class="ibox-content">
+		<table class="table table-bordered">
+			<tbody>
+				<tr>
+					<td style="background-color:#F5F5F6; font-weight:bold; text-align:right" width="15%">用户名：</td>
+					<td>{$info.username}</td>
+				</tr>
+				<tr>
+					<td style="background-color:#F5F5F6; font-weight:bold; text-align:right" width="15%">性别：</td>
+					<td>{$info.sex}</td>
+				</tr>
+				<tr>
+					<td style="background-color:#F5F5F6; font-weight:bold; text-align:right" width="15%">电话：</td>
+					<td>{$info.mobil}</td>
+				</tr>
+				<tr>
+					<td style="background-color:#F5F5F6; font-weight:bold; text-align:right" width="15%">邮箱：</td>
+					<td>{$info.email}</td>
+				</tr>
+				<tr>
+					<td style="background-color:#F5F5F6; font-weight:bold; text-align:right" width="15%">头像：</td>
+					<td><img height="75" src="{$info.headimgurl}"></td>
+				</tr>
+				<tr>
+					<td style="background-color:#F5F5F6; font-weight:bold; text-align:right" width="15%">状态：</td>
+					<td>{$info.status}</td>
+				</tr>
+				<tr>
+					<td style="background-color:#F5F5F6; font-weight:bold; text-align:right" width="15%">姓名：</td>
+					<td>{$info.relname}</td>
+				</tr>
+				<tr>
+					<td style="background-color:#F5F5F6; font-weight:bold; text-align:right" width="15%">创建时间：</td>
+					<td>{$info.create_time|date="Y-m-d H:i:s",###}</td>
+				</tr>
+				<tr>
+					<td style="background-color:#F5F5F6; font-weight:bold; text-align:right" width="15%">积分：</td>
+					<td>{$info.amount}</td>
+				</tr>
+				<tr>
+					<td style="background-color:#F5F5F6; font-weight:bold; text-align:right" width="15%">省市区：</td>
+					<td>{$info.province}-{$info.city}-{$info.district}</td>
+				</tr>
+				<tr>
+					<td style="background-color:#F5F5F6; font-weight:bold; text-align:right" width="15%">色值：</td>
+					<td>{$info.color}</td>
+				</tr>
+				<tr>
+					<td style="background-color:#F5F5F6; font-weight:bold; text-align:right" width="15%">坐标：</td>
+					<td>{$info.longitude}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+{/block}

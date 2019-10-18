@@ -1,0 +1,54 @@
+{extend name='common/_container'}
+{block name="content"}
+<div class="ibox float-e-margins">
+<input type="hidden" name='m_id' id='m_id' value="{$info.m_id}" />
+	<div class="ibox-content layui-form">
+		<div class="form-horizontal" id="CodeInfoForm">
+			<div class="row">
+				<div class="col-sm-12">
+				<!-- form start -->
+					<div class="form-group">
+						<label class="col-sm-2 control-label">头像：</label>
+						<div class="col-sm-6">
+							<input type="text" id="headimgurl" value="{$info.headimgurl}" name="headimgurl" {:hook('view_big_pic',['type'=>2])} class="form-control" placeholder="请输入头像">
+						</div>
+						<div class="col-sm-2" style="position:relative; right:30px;">
+							<span id="headimgurl_upload"></span>
+						</div>
+					</div>
+				<!-- form end -->
+				</div>
+			</div>
+			<div class="hr-line-dashed"></div>
+			<div class="row btn-group-m-t">
+				<div class="col-sm-9 col-sm-offset-1">
+					<button type="button" class="btn btn-primary" onclick="CodeInfoDlg.batchUpdate()" id="ensure">
+						<i class="fa fa-check"></i>&nbsp;确认提交
+					</button>
+					<button type="button" class="btn btn-danger" onclick="CodeInfoDlg.close()" id="cancel">
+						<i class="fa fa-eraser"></i>&nbsp;取消
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="__PUBLIC__/static/js/admin/Member.js?t=<?php echo rand(1000,9999)?>" charset="utf-8"></script>
+<script src="__PUBLIC__/static/js/upload.js" charset="utf-8"></script>
+<script src="__PUBLIC__/static/js/plugins/layui/layui.js?t=1498856285724" charset="utf-8"></script>
+<script>
+layui.config({dir: '__PUBLIC__/static/js/plugins/layui/'});
+	layui.use(['layer', 'form'], function () {
+	window.layer = layui.layer;
+	window.form = layui.form();
+});
+layui.use('element', function(){
+	var element = layui.element();
+	element.on('tab(test)', function(elem){
+	});
+});
+uploader('headimgurl_upload','headimgurl','image',false,'','{:url("admin/Upload/uploadImages")}');
+</script>
+
+
+{/block}

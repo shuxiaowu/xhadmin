@@ -1,0 +1,220 @@
+{extend name='common/_container'}
+{block name="content"}
+<div class="ibox float-e-margins">
+<input type="hidden" name='content_id' id='content_id' value="{$info.content_id}" />
+	<div class="ibox-content layui-form">
+		<div class="form-horizontal" id="CodeInfoForm">
+			<div class="row" style="margin-top:-20px;">
+				<div class="layui-tab layui-tab-brief" lay-filter="test">
+					<ul class="layui-tab-title">
+						<li class="layui-this">基本信息</li>
+						<li>拓展信息</li>
+					</ul>
+					<div class="layui-tab-content" style="margin-top:10px;">
+						<div class="layui-tab-item layui-show">
+							<div class="col-sm-12">
+							<!-- form start -->
+					<div class="form-group">
+						<label class="col-sm-2 control-label">文章标题：</label>
+						<div class="col-sm-9">
+							<input type="text" id="title" value="{$info.title}" name="title" class="form-control" placeholder="请输入文章标题">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">所属栏目：</label>
+						<div class="col-sm-9">
+							<select lay-ignore name="class_id" class="form-control" id="class_id">
+								<option value="">请选择</option>
+								{sql query="select class_id,class_name,pid from pre_catagory"}
+									<option value="{$sql.class_id}" {if condition="$info.class_id eq $sql.class_id"}selected{/if}>{$sql.class_name}</option>
+								{/sql}
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">缩略图：</label>
+						<div class="col-sm-6">
+							<input type="text" id="pic" value="{$info.pic}" name="pic" {:hook('view_big_pic',['type'=>2])} class="form-control" placeholder="请输入缩略图">
+							<span class="help-block m-b-none">请先选择栏目，再上传才能生成相应的缩略图</span>
+						</div>
+						<div class="col-sm-2" style="position:relative; right:30px;">
+							<span id="pic_upload"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">文章详情：</label>
+						<div class="col-sm-9">
+							<script id="detail" type="text/plain" name="detail" style="width:100%;height:300px;">{$info.detail}</script>
+							<script type="text/javascript">
+								var ue = UE.getEditor('detail');
+								scaleEnabled:true
+							</script>
+						</div>
+					</div>
+					<div id="extend"></div>
+							<!-- form end -->
+							</div>
+						</div>
+						<div class="layui-tab-item">
+							<div class="col-sm-12">
+							<!-- form start -->
+					<div class="form-group">
+						<label class="col-sm-2 control-label">文章状态：</label>
+						<div class="col-sm-9">
+							<?php if(!isset($info['status'])){ $info['status'] = 10; }; ?>
+							<input name="status" value="10" type="radio" {if condition="$info.status eq '10'"}checked{/if} title="发布">
+							<input name="status" value="danger" type="radio" {if condition="$info.status eq 'danger'"}checked{/if} title="不发布">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">推荐位：</label>
+						<div class="col-sm-9">
+							{query table="position"}
+							<input name="position" value="{$query.position_id}" type="checkbox" {if in_array($query.position_id,explode(',',$info['position']))}checked{/if} title="{$query.title}">
+							{/query}
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">跳转：</label>
+						<div class="col-sm-9">
+							<input type="text" id="jumpurl" value="{$info.jumpurl}" name="jumpurl" class="form-control" placeholder="请输入跳转">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">发布时间：</label>
+						<div class="col-sm-9">
+							<input type="text" value="{if condition="$info.create_time neq ''"}{$info.create_time|date='Y-m-d H:i:s',###}{else/}{:date('Y-m-d H:i:s')}{/if}" name="create_time"  placeholder="请输入发布时间" class="form-control layer-date" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" id="create_time">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">关键词：</label>
+						<div class="col-sm-9">
+							<input type="text" id="keyword" value="{$info.keyword}" name="keyword" class="form-control" placeholder="请输入关键词">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">描述：</label>
+						<div class="col-sm-9">
+							<textarea id="description" name="description"  class="form-control" placeholder="请输入描述">{$info.description}</textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">浏览量：</label>
+						<div class="col-sm-9">
+							<input type="text" id="views" value="{$info.views}" name="views" class="form-control" placeholder="请输入浏览量">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">排序：</label>
+						<div class="col-sm-9">
+							<?php if(!isset($info['sortid'])){ $info['sortid'] = '100'; }; ?>
+							<input type="text" id="sortid" value="{$info.sortid}" name="sortid" class="form-control" placeholder="请输入排序">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">来源：</label>
+						<div class="col-sm-9">
+							<?php if(!isset($info['author'])){ $info['author'] = 'admin'; }; ?>
+							<input type="text" id="author" value="{$info.author}" name="author" class="form-control" placeholder="请输入来源">
+						</div>
+					</div>
+					
+							<!-- form end -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="hr-line-dashed"></div>
+			<div class="row btn-group-m-t">
+				<div class="col-sm-10">
+					<button type="button" class="btn btn-primary" onclick="{if condition="$info.content_id neq ''"}CodeInfoDlg.update(){else/}CodeInfoDlg.add(){/if}" id="ensure">
+						<i class="fa fa-check"></i>&nbsp;确认提交
+					</button>
+					<button type="button" class="btn btn-danger" onclick="CodeInfoDlg.close()" id="cancel">
+						<i class="fa fa-eraser"></i>&nbsp;取消
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="__PUBLIC__/static/js/admin/Content.js?t=<?php echo rand(1000,9999)?>" charset="utf-8"></script>
+<script src="__PUBLIC__/static/js/upload.js" charset="utf-8"></script>
+<script src="__PUBLIC__/static/js/plugins/layui/layui.js?t=1498856285724" charset="utf-8"></script>
+
+<script>
+
+layui.config({dir: '__PUBLIC__/static/js/plugins/layui/'});
+	layui.use(['layer', 'form'], function () {
+	window.layer = layui.layer;
+	window.form = layui.form();
+});
+layui.use('element', function(){
+	var element = layui.element();
+	element.on('tab(test)', function(elem){
+	});
+});
+
+uploader('pic_upload','pic','image',false,'','{:url("admin/Upload/uploadImages")}');
+
+$(function(){
+	$('#class_id').change(function() {
+		uploader('pic_upload','pic','image',false,'','{:url("admin/Upload/uploadImages")}?class_id=' + $("#class_id option:selected").val()); //此段主要是为了加载当前class_id  否则可以不用写
+		var ajax = new $ax(Feng.ctxPath + "/Content/getExtends", function (data) {
+			$("#extend").html(data.data);
+			var fieldList = data.fieldList;
+			for(var p in fieldList){
+				//单图上传
+				if(fieldList[p]['type'] == 8){
+					uploader(fieldList[p]['field']+'_upload',fieldList[p]['field'],'image',false,'','{:url("admin/Upload/uploadImages")}');
+				}
+				//多图上传
+				if(fieldList[p]['type'] == 9){
+					var images = $("#"+fieldList[p]['field']).val();
+					var default_value;
+					var images = images.substr(0,images.length-1);
+					
+					if(images !== ''){
+						var images_value;
+						if(images.indexOf("|") == -1){
+							images_value = '["'+images+'"]';
+						}else{
+							images_value = JSON.stringify(images.split("|"));
+						}
+						default_value = images_value;				
+					}else{
+						default_value = '';
+					}
+					
+					uploader(fieldList[p]['field']+'_upload',fieldList[p]['field'],'image',true,default_value,'{:url("admin/Upload/uploadImages")}');
+				}
+				//文件上传
+				if(fieldList[p]['type'] == 10){				
+					uploader(fieldList[p]['field']+'_upload',fieldList[p]['field'],'file',false,'','{:url("admin/Upload/uploadImages")}');
+				}
+				
+				layui.config({dir: '__PUBLIC__/static/js/plugins/layui/'});
+					layui.use(['layer', 'form'], function () {
+					window.layer = layui.layer;
+					form = layui.form();
+					form.render();
+				});
+				
+				
+			}
+			
+		});
+		ajax.set('class_id', $(this).find('option:selected').val());
+		ajax.set('content_id', $("#content_id").val());
+		ajax.start();
+	})
+	{if condition="$info.content_id neq ''"}
+	$('#class_id').change();
+	{/if}
+})
+
+</script>
+
+
+{/block}

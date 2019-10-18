@@ -1,0 +1,321 @@
+{extend name='common/_container'} {block name="content"}
+<div class="row">
+	<div class="col-sm-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>用户管理</h5>
+				<button style="float:right; margin-top:-10px;" title="刷新页面" type="button" class="btn btn-default btn-outline" onclick="window.location.reload()" id="">
+					<i class="fa fa-refresh"></i>
+				</button>
+			</div>
+			<div class="ibox-content">
+				<div class="row row-lg">
+					<div class="col-sm-12">
+						<div class="row" id="searchGroup">
+							<!-- search start -->
+							<div class="col-sm-2">
+								<div class="input-group">
+									<div class="input-group-btn">
+										<button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">真实姓名</button>
+									</div>
+									<input type="text" class="form-control" id="name" placeholder="真实姓名" />
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="input-group">
+									<div class="input-group-btn">
+										<button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">用户名</button>
+									</div>
+									<input type="text" class="form-control" id="user" placeholder="用户名" />
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="input-group">
+									<div class="input-group-btn">
+										<button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">分组ID</button>
+									</div>
+									<select class="form-control" id="group_id">
+										<option value="">请选择</option>
+										{query table="group"}
+										<option value="{$query.group_id}">{$query.name}</option>
+										{/query}
+									</select>
+								</div>
+							</div>
+							<!-- search end -->
+							<div class="col-sm-2">
+									<button type="button" class="btn btn-primary " onclick="CodeGoods.search()" id="">
+										<i class="fa fa-search"></i>&nbsp;搜索
+									</button>
+							</div>
+						</div>
+						<div id="CodeGoodsTableToolbar" role="group">
+							{if condition="in_array('/admin/User/add',session('admin.nodes')) || session('admin.role') eq 1"}
+							<button type="button" id="add" class="btn btn-primary button-margin" onclick="CodeGoods.add()">
+								<i class="fa fa-plus"></i>&nbsp;添加
+							</button>
+							{/if}
+							{if condition="in_array('/admin/User/update',session('admin.nodes')) || session('admin.role') eq 1"}
+							<button type="button" id="update" class="btn btn-primary button-margin" onclick="CodeGoods.update()">
+								<i class="fa fa-edit"></i>&nbsp;修改
+							</button>
+							{/if}
+							{if condition="in_array('/admin/User/updatePassword',session('admin.nodes')) || session('admin.role') eq 1"}
+							<button type="button" id="updatePassword" class="btn btn-primary button-margin" onclick="CodeGoods.updatePassword()">
+								<i class="fa fa-pencil"></i>&nbsp;修改密码
+							</button>
+							{/if}
+							{if condition="in_array('/admin/User/forbidden',session('admin.nodes')) || session('admin.role') eq 1"}
+							<button type="button" id="forbidden" class="btn btn-primary button-margin" onclick="CodeGoods.forbidden('status|0')">
+								<i class="fa fa-edit"></i>&nbsp;禁用
+							</button>
+							{/if}
+							{if condition="in_array('/admin/User/start',session('admin.nodes')) || session('admin.role') eq 1"}
+							<button type="button" id="start" class="btn btn-primary button-margin" onclick="CodeGoods.start('status|10')">
+								<i class="fa fa-edit"></i>&nbsp;启用
+							</button>
+							{/if}
+							{if condition="in_array('/admin/User/delete',session('admin.nodes')) || session('admin.role') eq 1"}
+							<button type="button" id="delete" class="btn btn-danger button-margin" onclick="CodeGoods.delete()">
+								<i class="fa fa-trash"></i>&nbsp;删除
+							</button>
+							{/if}
+						</div>
+						<table id="CodeGoodsTable" data-mobile-responsive="true" data-click-to-select="true">
+							<thead><tr><th data-field="selectItem" data-checkbox="true"></th></tr></thead>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	var CodeGoods = {id: "CodeGoodsTable",seItem: null,table: null,layerIndex: -1};
+
+	CodeGoods.initColumn = function () {
+ 		return [
+ 			{field: 'selectItem', checkbox: true},
+ 			{title: '编号', field: 'user_id', visible: true, align: 'center', valign: 'middle'},
+ 			{title: '真实姓名', field: 'name', visible: true, align: 'center', valign: 'middle'},
+ 			{title: '用户名', field: 'user', visible: true, align: 'center', valign: 'middle'},
+ 			{title: '所属分组', field: 'group_name', visible: true, align: 'center', valign: 'middle'},
+ 			{title: '类别', field: 'type', visible: true, align: 'center', valign: 'middle',formatter: 'CodeGoods.typeFormatter'},
+ 			{title: '备注', field: 'note', visible: true, align: 'center', valign: 'middle'},
+ 			{title: '状态', field: 'status', visible: true, align: 'center', valign: 'middle',formatter: 'CodeGoods.statusFormatter'},
+ 			{title: '创建时间', field: 'create_time', visible: true, align: 'center', valign: 'middle',formatter: 'CodeGoods.create_timeFormatter'},
+ 		];
+ 	};
+
+	CodeGoods.typeFormatter = function(value,row,index) {
+		if(value !== null){
+			var value = value.toString();
+			switch(value){
+				case '1':
+					return '超级管理员';
+				break;
+				case '2':
+					return '管理员';
+				break;
+			}
+		}
+	}
+
+	CodeGoods.statusFormatter = function(value,row,index) {
+		if(value !== null){
+			var value = value.toString();
+			switch(value){
+				case '10':
+					return '<span class="label label-primary">正常</span>';
+				break;
+				case '0':
+					return '<span class="label label-danger">禁用</span>';
+				break;
+			}
+		}
+	}
+
+	CodeGoods.create_timeFormatter = function(value,row,index) {
+		if(value){
+			return formatDateTime(value);	
+		}
+	}
+
+	CodeGoods.formParams = function() {
+		var queryData = {};
+		queryData['name'] = $("#name").val();
+		queryData['user'] = $("#user").val();
+		queryData['group_id'] = $("#group_id").val();
+		return queryData;
+	}
+
+	CodeGoods.check = function () {
+		var selected = $('#' + this.id).bootstrapTable('getSelections');
+		if(selected.length == 0){
+			Feng.info("请先选中表格中的某一记录！");
+			return false;
+		}else{
+			CodeGoods.seItem = selected;
+			return true;
+		}
+	};
+
+	CodeGoods.add = function (value) {
+		var url = location.search;
+		var index = layer.open({type: 2,title: '添加账户',area: ['800px', '600px'],fix: false, maxmin: true,content: Feng.ctxPath + '/User/add'+url});
+		this.layerIndex = index;
+	}
+
+
+	CodeGoods.update = function (value) {
+		if(value){
+			var index = layer.open({type: 2,title: '修改账户',area: ['800px', '500px'],fix: false, maxmin: true,content: Feng.ctxPath + '/User/update/user_id/'+value});
+		}else{
+			if (this.check()) {
+				var idx = '';
+
+				$.each(CodeGoods.seItem, function() {
+					idx += ',' + this.user_id;
+				});
+
+				idx = idx.substr(1);
+				if(idx.indexOf(",") !== -1){
+					Feng.info("请选择单条数据！");
+					return false;
+				}
+				var index = layer.open({type: 2,title: '修改账户',area: ['800px', '500px'],fix: false, maxmin: true,content: Feng.ctxPath + '/User/update/user_id/'+idx});
+				this.layerIndex = index;
+			}
+		}
+	}
+
+
+	CodeGoods.updatePassword = function (value) {
+		if (this.check()) {
+			var idx = '';
+
+			$.each(CodeGoods.seItem, function() {
+				idx += ',' + this.user_id;
+			});
+
+			idx = idx.substr(1);
+			if(idx.indexOf(",") !== -1){
+				Feng.info("请选择单条数据！");
+				return false;
+			}
+			var index = layer.open({type: 2,title: '修改密码',area: ['600px', '300px'],fix: false, maxmin: true,content: Feng.ctxPath + '/User/updatePassword/user_id/'+idx});
+			this.layerIndex = index;
+		}
+	}
+	
+	CodeGoods.forbidden = function (value) {
+		if (this.check()) {
+			var idx = '';
+
+			$.each(CodeGoods.seItem, function() {
+				idx += ',' + this.user_id;
+			});
+
+			idx = idx.substr(1);
+			Feng.confirm("是否禁用选中项？", function () {
+				var ajax = new $ax(Feng.ctxPath + "/User/forbidden", function (data) {
+					if ('00' === data.status) {
+						Feng.success(data.msg);
+						CodeGoods.table.refresh();
+					} else {
+						Feng.error(data.msg);
+					}
+				});
+				ajax.set('user_ids', idx);
+				ajax.set('statusData', value);
+				ajax.start();
+			});
+		}
+	}
+
+
+	CodeGoods.start = function (value) {
+		if (this.check()) {
+			var idx = '';
+
+			$.each(CodeGoods.seItem, function() {
+				idx += ',' + this.user_id;
+			});
+
+			idx = idx.substr(1);
+			Feng.confirm("是否启用选中项？", function () {
+				var ajax = new $ax(Feng.ctxPath + "/User/start", function (data) {
+					if ('00' === data.status) {
+						Feng.success(data.msg);
+						CodeGoods.table.refresh();
+					} else {
+						Feng.error(data.msg);
+					}
+				});
+				ajax.set('user_ids', idx);
+				ajax.set('statusData', value);
+				ajax.start();
+			});
+		}
+	}
+	
+	CodeGoods.delete = function (value) {
+		if(value){
+			Feng.confirm("是否删除选中项？", function () {
+				var ajax = new $ax(Feng.ctxPath + "/User/delete", function (data) {
+					if ('00' === data.status) {
+						Feng.success(data.msg);
+						CodeGoods.table.refresh();
+					} else {
+						Feng.error(data.msg);
+					}
+				});
+				ajax.set('user_ids', value);
+				ajax.start();
+			});
+		}else{
+			if (this.check()) {
+				var idx = '';
+
+				$.each(CodeGoods.seItem, function() {
+					idx += ',' + this.user_id;
+				});
+
+				idx = idx.substr(1);
+				Feng.confirm("是否删除选中项？", function () {
+					var ajax = new $ax(Feng.ctxPath + "/User/delete", function (data) {
+						if ('00' === data.status) {
+							Feng.success(data.msg);
+							CodeGoods.table.refresh();
+						} else {
+							Feng.error(data.msg);
+						}
+					});
+					ajax.set('user_ids', idx);
+					ajax.start();
+				});
+			}
+		}
+	}
+
+
+	CodeGoods.search = function() {
+		CodeGoods.table.refresh({query : CodeGoods.formParams()});
+	};
+
+	CodeGoods.orderby = function() {
+		var queryData = CodeGoods.formParams();
+		queryData['orderby'] = $("#orderby").val();
+		CodeGoods.table.refresh({query : queryData});
+	};
+
+	$(function() {
+		var defaultColunms = CodeGoods.initColumn();
+		var url = location.search;
+		var table = new BSTable(CodeGoods.id, Feng.ctxPath+"/User/index"+url,defaultColunms,20);
+		table.setPaginationType("server");
+		table.setQueryParams(CodeGoods.formParams());
+		CodeGoods.table = table.init();
+	});
+</script>
+{/block}

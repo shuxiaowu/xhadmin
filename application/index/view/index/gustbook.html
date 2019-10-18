@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=7">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$media.title}</title>
+<meta name="keywords" content="{$media.keywords}">
+<meta name="description" content="{$media.description}">
+<link href="__PUBLIC__/static/cms/css/HituxBlue/inner.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__/static/cms/css/HituxBlue/common.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__/static/cms/qqkefu/HituxBlue/qq_right.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__PUBLIC__/static/cms/js/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/cms/js/functions.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/cms/images/iepng/iepngfix_tilebg.js"></script>
+</head>
+
+<body>
+
+<div id="wrapper">
+
+<!--head start-->
+{include file="index@index/header"}
+<!--head end-->
+<!--body start-->
+<div id="body">
+<!--focus start-->
+<div id="InnerBanner">
+
+</div>
+<!--foncus end-->
+<div class="HeightTab clearfix"></div>
+<!--inner start -->
+<div class="inner">
+<!--left start-->
+<div class="left">
+{include file="index@index/left"}
+</div>
+<!--left end-->
+<!--right start-->
+<div class="right">
+<div class="Position"><span>{$position}</span></div>
+<div class="HeightTab clearfix"></div>
+<!--main start-->
+<div class="main">
+
+<!--FeedBack start-->
+<div class="FeedBack">
+
+<div class='FeedBlock'>
+
+<div class="commentbox">
+<form id="form1" name="form1" method="post" action="{:url('index/Form/index')}">
+<input type="hidden" value="29" name="extend_id">
+  <table id="commentform" width="600" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+      <td>姓名</td>
+      <td><input name='username' type='text' id='relname' size='30' maxlength="30"><span class="FontRed">*</span></td>
+    </tr>
+    <tr>
+      <td>电子邮件</td>
+      <td><input name='email' type='text' id='email' size='30' maxlength="80"></td>
+    </tr>
+    <tr>
+      <td>QQ</td>
+      <td><input name='qq' type='text' id='qq' size='30' maxlength="30"></td>
+    </tr>	
+    <tr>
+      <td>留言内容</td>
+      <td>
+        <textarea name="content" cols="60" rows="7"  value="" ></textarea>
+            <span class="FontRed">*</span></td>    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><input class="Cbutton" type="submit" value="发表留言"></td>
+    </tr>
+  </table>
+</form>
+</div>
+
+</div>
+<!--FeedBack end-->
+
+</div>
+<!--main end-->
+</div>
+<!--right end-->
+</div>
+<!--inner end-->
+</div>
+<!--body end-->
+<div class="HeightTab clearfix"></div>
+<!--footer start-->
+{include file="index@index/foot"}
+<!--footer end -->
+
+
+</div>
+<script type="text/javascript">
+window.onerror=function(){return true;}
+</script>
+</body>
+</html>
+<!--
+Powered By HuiguerCMS ASP V3.6   
+-->
+
+
+

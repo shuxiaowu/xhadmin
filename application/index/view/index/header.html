@@ -1,0 +1,56 @@
+<div id="head">
+
+<!--top start -->
+<div class="top">
+<div class="TopInfo"><div class="link"><a onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.wellcard.cn');" href="#">设为首页</a> | <a href="javascript:window.external.AddFavorite('http://www.wellcard.cn','有数配件')">加入收藏</a></div>
+</div>
+<div class="clearfix"></div>
+<div class="TopLogo">
+<div class="logo"><a href="/"><img src="{:config('site_logo')}" alt="有数配件"></a></div>
+<!--<div class="tel">
+<div class="SearchBar">
+<form method="get" action="/Search/index.asp">
+				<input type="text" name="q" id="search-text" size="15" onBlur="if(this.value=='') this.value='请输入关键词';" 
+onfocus="if(this.value=='请输入关键词') this.value='';" value="请输入关键词" /><input type="submit" id="search-submit" value="搜索" />
+			</form>
+</div>
+</div>-->
+<div class="tel">
+<div class="SearchBar">
+<form method="get" action="#">
+				<input type="text" name="q" id="search-text" size="15" onBlur="if(this.value=='') this.value='请输入关键词';" 
+onfocus="if(this.value=='请输入关键词') this.value='';" value="请输入关键词" /><input type="submit" id="search-submit" value="搜索" />
+			</form>
+</div>
+</div>
+</div>
+
+</div>
+<!--top end-->
+
+
+<!--nav start-->
+<div id="NavLink">
+<div class="NavBG">
+<!--Head Menu Start-->
+<ul id='sddm'>
+<li class='CurrentLi'><a href='/'>首  页</a></li> 
+{class sqlstr="pid=0" num="6"}
+<li>
+<a href='{$class.url}' onmouseover=mopen('m{$key+1}') onmouseout='mclosetime()'>{$class.class_name}</a> 
+ <div id='m{$key+1}' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
+ {class sqlstr="pid=$class[class_id]"}
+ <a href='{$class.url}'>{$class.class_name}</a>
+ {/class}
+ </div>
+
+</li> 
+{/class}
+</ul>
+<!--Head Menu End-->
+</div>
+<div class="clearfix"></div>
+</div>
+<!--nav end-->
+
+</div>

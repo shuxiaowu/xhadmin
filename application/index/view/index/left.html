@@ -1,0 +1,30 @@
+<div class="Sbox">
+<div class="topic">{$pname}</div>
+<div class="blank"><ul>
+{class sqlstr="pid=$pid"}
+<li><A href='{$class.url}'>{$class.class_name}</A></li>
+{/class}
+</ul></div>
+</div>
+<div class="HeightTab clearfix"></div>
+<div class="Sbox">
+<div class="topic">最新资讯&nbsp;&nbsp;&nbsp;New</div>
+<div class="list">
+<dl>
+{newslist classid="9" num="4"}
+<dt>{$newslist.create_time|date="Y/m/d",###}</dt><dd><a href='{$newslist.url}' target='_blank'>{$newslist.title}</a></dd>
+{/newslist}
+</dl>
+</div>
+
+</div>
+<div class="HeightTab clearfix"></div>
+<div class="Sbox">
+<div class="topic">搜索&nbsp;&nbsp;&nbsp;Search</div>
+<div class="SearchBar">
+<form method="get" action="#">
+				<input type="text" name="q" id="search-text" size="15" onBlur="if(this.value=='') this.value='请输入关键词';" 
+onfocus="if(this.value=='请输入关键词') this.value='';" value="请输入关键词" /><input type="submit" id="search-submit" value="搜索" />
+			</form>
+</div>
+</div>

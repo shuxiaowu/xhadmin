@@ -1,0 +1,136 @@
+{extend name='common/_container'}
+{block name="content"}
+<div class="ibox float-e-margins">
+	<div class="ibox-title">
+		<h5>静态生成</h5>
+		<button style="float:right; margin-top:-10px;" title="刷新页面" type="button" class="btn btn-default btn-outline" onclick="window.location.reload()" id="">
+			<i class="fa fa-refresh"></i>
+		</button>
+	</div>
+	<div class="ibox-content layui-form">
+		<div class="form-horizontal" id="CodeInfoForm">
+			<div class="row">
+				<div class="col-sm-7">
+				<!-- form start -->
+					<div class="form-group">
+						<label class="col-sm-2 control-label">首页模板：</label>
+						<div class="col-sm-3">
+							<input type="text" id="index_tpl" value="index" name="index_tpl" class="form-control" placeholder="请输入内容模板">
+						</div>
+						<div class="col-sm-3" style="margin-left:-30px;">
+							<select lay-ignore id="tplSelect" class="form-control" target="#index_tpl">
+								<option value="">请选择</option>
+								{foreach name="tpList" id="vo"}
+								<option value="{$vo.name}">{$vo.file}</option>
+								{/foreach}								
+							</select>
+						</div>
+					</div>
+					
+				<!-- form end -->
+				</div>
+			</div>
+			<div class="row btn-group-m-t">
+				<div class="col-sm-9">
+					<button type="button" class="btn btn-primary" onclick="CodeInfoDlg.doIndex()" id="ensure">
+						<i class="fa fa-check"></i>&nbsp;生成首页
+					</button>
+				</div>
+			</div>
+			<div class="hr-line-dashed"></div>
+			<div class="row" style="margin-top:20px;">
+				<div class="col-sm-7">
+				<!-- form start -->
+					<div class="form-group">
+						<label class="col-sm-2 control-label">请选择栏目：</label>
+						<div class="col-sm-6">
+							<select lay-ignore class="form-control" id="list_class_id">
+								<option value="">请选择栏目</option>
+								{sql query="select class_id,class_name,pid from pre_catagory"}
+								<option value="{$sql.class_id}">{$sql.class_name}</option>
+								{/sql}
+							</select>
+							<span class="help-block m-b-none">默认不选择则更新全部栏目</span>
+						</div>
+					</div>
+					
+				<!-- form end -->
+				</div>
+			</div>
+			<div class="row btn-group-m-t">
+				<div class="col-sm-9">
+					<button type="button" class="btn btn-primary" onclick="CodeInfoDlg.doList()" id="ensure">
+						<i class="fa fa-check"></i>&nbsp;生成列表页
+					</button>
+				</div>
+			</div>
+			<div class="hr-line-dashed"></div>
+			<div class="row" style="margin-top:20px;">
+				<div class="col-sm-7">
+				<!-- form start -->
+					<div class="form-group">
+						<label class="col-sm-2 control-label">请选择栏目：</label>
+						<div class="col-sm-6">
+							<select lay-ignore class="form-control" id="view_class_id">
+								<option value="">请选择栏目</option>
+								{sql query="select class_id,class_name,pid from pre_catagory"}
+								<option value="{$sql.class_id}">{$sql.class_name}</option>
+								{/sql}
+							</select>
+							<span class="help-block m-b-none">默认不选择则更新全部栏目</span>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 control-label">起始ID：</label>
+						<div class="col-sm-6">
+							<input type="text" id="startId"  name="startId" class="form-control" placeholder="请输入起始ID">
+						</div>
+					</div>
+					
+					
+					<div class="form-group">
+						<label class="col-sm-2 control-label">结束ID：</label>
+						<div class="col-sm-6">
+							<input type="text" id="endId"  name="endId" class="form-control" placeholder="请输入结束ID">
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 control-label">每次更新条数：</label>
+						<div class="col-sm-6">
+							<input type="text" id="pagesize"  name="pagesize" value="20" class="form-control" placeholder="每页更新条数">
+						</div>
+					</div>
+				<!-- form end -->
+				</div>
+			</div>
+			<div class="row btn-group-m-t">
+				<div class="col-sm-9">
+					<button type="button" class="btn btn-primary" onclick="CodeInfoDlg.doView()" id="ensure">
+						<i class="fa fa-check"></i>&nbsp;生成详情页
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="__PUBLIC__/static/js/admin/Html.js?t=<?php echo rand(1000,9999)?>" charset="utf-8"></script>
+<script src="__PUBLIC__/static/js/plugins/layui/layui.js?t=1498856285724" charset="utf-8"></script>
+<script>
+layui.config({dir: '__PUBLIC__/static/js/plugins/layui/'});
+	layui.use(['layer', 'form'], function () {
+	window.layer = layui.layer;
+	window.form = layui.form();
+});
+$(function(){
+	$("#tplSelect").change(function(){
+		pick = $(this).attr('target');
+		var val = $(this).find('option:selected').val();
+		$(pick).val(val);
+	});
+})
+</script>
+
+
+{/block}

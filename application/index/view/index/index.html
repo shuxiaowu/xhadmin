@@ -1,0 +1,147 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=7">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$media.title}</title>
+<meta name="keywords" content="{$media.keywords}">
+<meta name="description" content="{$media.description}">
+<link href="__PUBLIC__/static/cms/css/HituxBlue/style.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__/static/cms/css/HituxBlue/common.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__PUBLIC__/static/cms/js/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/cms/js/functions.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/cms/images/iepng/iepngfix_tilebg.js"></script>
+</head>
+
+<body>
+
+<div id="wrapper">
+<!--head start-->
+
+{include file="index@index/header"}
+
+<!--head end-->
+<!--body start-->
+<div id="body">
+<!--focus start-->
+<div id="Focus">
+<ul>
+{newslist classid="19" num="5"}
+<li><a href='' target='_blank'><img src='{$newslist.spic}' alt='intel'/></a></li>
+{/newslist}
+</ul>
+</div>
+<!--foncus end-->
+
+<div class="HeightTab clearfix"></div>
+<!--ProductShow start-->
+<DIV class="ProductShow">
+<div class="topic">
+<div class="TopicTitle"> 产品展示  Product</div>
+<div class="TopicMore"> <a  href='{:U(8)}'><img src="__PUBLIC__/static/cms/images/more.png"></a></div>
+</div>
+{newslist classid="8" num="5"}
+<div class='albumblock' style="padding: 10px 10px 30px 12px;
+">
+<div class='inner'><a href='{$newslist.url}'><img src='{$newslist.pic}' /><div class='albumtitle'>{$newslist.title}</div></a></div></div>
+{/newslist}
+<div class="clearfix"></div>
+</DIV>
+<!--ProductShow end-->
+
+
+
+<div class="HeightTab clearfix"></div>
+<!--MainBlock start-->
+<div class="MainBlock">
+<!--left start-->
+<div class="right">
+<div class="topic">
+<div class="TopicTitle">公司简介 About</div>
+<div class="TopicMore"> <a  href='{:U(7)}'><img src="__PUBLIC__/static/cms/images/more.png"></a></div>
+</div>
+<div class="img"><img src="__PUBLIC__/static/cms/images/Up_Images/2012521212111.jpg" width="220" height="100" alt="关于有数"></div>
+<div class="txt ColorLink">
+{sig id="1" /}
+</div>
+
+<div class=" clearfix"></div>
+
+</div>
+<!--left end-->
+<div class="WidthTab"></div>
+<!--right start-->
+<div class="left">
+<div class="topic">
+<div class="TopicTitle">新闻资讯 News</div>
+<div class="TopicMore"> <a  href='{:U(9)}'><img src="__PUBLIC__/static/cms/images/more.png"></a></div>
+</div>
+
+
+<div class="HeightTab clearfix"></div>
+<!--links start-->
+
+<div class="HeightTab clearfix"></div>
+<table id="MBlockTable" width="100%" border="0" cellspacing="0" cellpadding="0">
+<ul>
+{newslist classid="9" num="6"}
+<tr><td width='75%'>· <a href='{$newslist.url}'>{$newslist.title}</a>
+</td>
+{/newslist}
+</tr>
+</ul>
+  </table>
+</div>
+<!--right end-->
+<!--right2 start-->
+<div class="right2">
+<div class="topic">
+<div class="TopicTitle">联系我们 Contact</div>
+<div class="TopicMore"> <a  href='{:U(12)}'><img src="__PUBLIC__/static/cms/images/more.png"></a></div>
+</div>
+<div class="img"><img src="__PUBLIC__/static/cms/images/Contact_img.jpg" width="250" height="100" alt="联系方式"></div>
+<div class="txt ColorLink">
+{sig id="3" /}
+</div>
+
+<div class=" clearfix"></div>
+
+</div>
+<!--right2 end-->
+
+</div>
+<!--MainBlock end-->
+
+<div class="HeightTab clearfix"></div>
+<div id="Links">
+<span>友情链接：</span>
+{query table="link" num="12"}
+<a href='{$query.jumpurl}' target='_blank' >{$query.title}</a>
+{/query}
+</div>
+<!--links end-->
+
+</div>
+<!--body end-->
+<div class="HeightTab clearfix"></div>
+<!--footer start-->
+{include file="index@index/foot"}
+<!--footer end -->
+
+
+</div>
+<script type="text/javascript">
+window.onerror=function(){return true;}
+</script>
+</body>
+</html>
+<!--
+Powered By HuiguerCMS ASP V3.6   
+-->
+
+
+
+
+
+

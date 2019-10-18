@@ -1,0 +1,233 @@
+{extend name='common/_container'} {block name="content"}
+<div class="row">
+	<div class="col-sm-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>{$extendInfo.title}</h5>
+				<button style="float:right; margin-top:-10px;" title="刷新页面" type="button" class="btn btn-default btn-outline" onclick="window.location.reload()" id="">
+					<i class="fa fa-refresh"></i>
+				</button>
+			</div>
+			<div class="ibox-content">
+				<div class="row row-lg">
+					<div class="col-sm-12">
+						<div class="row" id="searchGroup">
+							<!-- search start -->	
+							{$searchGroup}
+							<!-- search end -->
+
+						</div>
+						<div id="CodeGoodsTableToolbar" role="group">
+							{if in_array('add',explode(',',$extendInfo['action']))}
+								{if condition="in_array('/admin/FormData/add/extend_id/'.$extend_id.'.html',session('admin.nodes')) || session('admin.role') eq 1"}
+								<button type="button" id="add" class="btn btn-primary button-margin" onclick="CodeGoods.add()">
+									<i class="fa fa-plus"></i>&nbsp;添加
+								</button>
+								{/if}
+							{/if}
+							{if in_array('update',explode(',',$extendInfo['action']))}
+								{if condition="in_array('/admin/FormData/update/extend_id/'.$extend_id.'.html',session('admin.nodes')) || session('admin.role') eq 1"}
+								<button type="button" id="update" class="btn btn-primary button-margin" onclick="CodeGoods.update()">
+									<i class="fa fa-edit"></i>&nbsp;修改
+								</button>
+								{/if}
+							{/if}
+							{if in_array('view',explode(',',$extendInfo['action']))}
+								{if condition="in_array('/admin/FormData/view/extend_id/'.$extend_id.'.html',session('admin.nodes')) || session('admin.role') eq 1"}
+								<button type="button" id="vew" class="btn btn-success button-margin" onclick="CodeGoods.view()">
+									<i class="fa fa-plus"></i>&nbsp;查看数据
+								</button>
+								{/if}
+							{/if}
+							{if in_array('importData',explode(',',$extendInfo['action']))}
+								{if condition="in_array('/admin/FormData/importData/extend_id/'.$extend_id.'.html',session('admin.nodes')) || session('admin.role') eq 1"}
+								<button type="button" id="vew" class="btn btn-success button-margin" onclick="CodeGoods.importData()">
+									<i class="fa fa-upload"></i>&nbsp;数据导入
+								</button>
+								{/if}
+							{/if}
+							{if in_array('dumpData',explode(',',$extendInfo['action']))}
+								{if condition="in_array('/admin/FormData/dumpData/extend_id/'.$extend_id.'.html',session('admin.nodes')) || session('admin.role') eq 1"}
+								<button type="button" id="vew" class="btn btn-success button-margin" onclick="CodeGoods.dumpData()">
+									<i class="fa fa-download"></i>&nbsp;数据导出
+								</button>
+								{/if}
+							{/if}
+							{if in_array('delete',explode(',',$extendInfo['action']))}
+								{if condition="in_array('/admin/FormData/delete/extend_id/'.$extend_id.'.html',session('admin.nodes')) || session('admin.role') eq 1"}
+								<button type="button" id="delete" class="btn btn-danger button-margin" onclick="CodeGoods.delete()">
+									<i class="fa fa-trash"></i>&nbsp;删除
+								</button>
+								{/if}
+							{/if}
+							
+						</div>
+						<table id="CodeGoodsTable" data-mobile-responsive="true" data-click-to-select="true">
+							<thead><tr><th data-field="selectItem" data-checkbox="true"></th></tr></thead>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	var CodeGoods = {id: "CodeGoodsTable",seItem: null,table: null,layerIndex: -1};
+
+	{$formStr}
+	
+	
+	CodeGoods.buttonFormatter = function(value,row,index) {
+		if(value){
+			var str= '';
+			
+			{if in_array('update',explode(',',$extendInfo['action']))}
+			str += '<button type="button" class="btn btn-primary btn-xs" title="修改"  onclick="CodeGoods.update('+value+')"><i class="fa fa-edit"></i></button>&nbsp;';
+			{/if}
+			
+			{if in_array('delete',explode(',',$extendInfo['action']))}
+			str += '<button type="button" class="btn btn-danger btn-xs" title="删除"  onclick="CodeGoods.delete('+value+')"><i class="fa fa-trash"></i></button>&nbsp;';
+			{/if}
+			
+			return str;
+		}
+	}
+	
+	{$queryParam}
+
+	CodeGoods.check = function () {
+		var selected = $('#' + this.id).bootstrapTable('getSelections');
+		if(selected.length == 0){
+			Feng.info("请先选中表格中的某一记录！");
+			return false;
+		}else{
+			CodeGoods.seItem = selected;
+			return true;
+		}
+	};
+
+	CodeGoods.add = function (value) {
+		var index = layer.open({type: 2,title: '创建数据',area: ['800px', '100%'],fix: false, maxmin: true,content: Feng.ctxPath + '/FormData/add/extend_id/{$extend_id}'});
+		this.layerIndex = index;
+	}
+
+
+	CodeGoods.update = function (value) {
+		if(value){
+			var index = layer.open({type: 2,title: '编辑数据',area: ['800px', '100%'],fix: false, maxmin: true,content: Feng.ctxPath + '/FormData/update/extend_id/{$extend_id}/data_id/'+value});
+		}else{
+			if (this.check()) {
+				var idx = '';
+
+				$.each(CodeGoods.seItem, function() {
+					idx += ',' + this.data_id;
+				});
+
+				idx = idx.substr(1);
+				if(idx.indexOf(",") !== -1){
+					Feng.info("请选择单条数据！");
+					return false;
+				}
+				var index = layer.open({type: 2,title: '编辑数据',area: ['800px', '100%'],fix: false, maxmin: true,content: Feng.ctxPath + '/FormData/update/extend_id/{$extend_id}/data_id/'+idx});
+				this.layerIndex = index;
+			}
+		}
+	}
+	
+	CodeGoods.view = function (value) {
+
+		if (this.check()) {
+			var idx = '';
+
+			$.each(CodeGoods.seItem, function() {
+				idx += ',' + this.data_id;
+			});
+
+			idx = idx.substr(1);
+			if(idx.indexOf(",") !== -1){
+				Feng.info("请选择单条数据！");
+				return false;
+			}
+			var index = layer.open({type: 2,title: '查看数据',area: ['800px', '100%'],fix: false, maxmin: true,content: Feng.ctxPath + '/FormData/view/extend_id/{$extend_id}/data_id/'+idx});
+			this.layerIndex = index;
+		}
+		
+	}
+
+
+	CodeGoods.delete = function (value) {
+		if(value){
+			Feng.confirm("是否删除选中项？", function () {
+				var ajax = new $ax(Feng.ctxPath + "/FormData/delete", function (data) {
+					if ('00' === data.status) {
+						Feng.success(data.msg);
+						CodeGoods.table.refresh();
+					} else {
+						Feng.error(data.msg);
+					}
+				});
+				ajax.set('data_ids', value);
+				ajax.set('extend_id', '{$extend_id}');
+				ajax.start();
+			});
+		}else{
+			if (this.check()) {
+				var idx = '';
+
+				$.each(CodeGoods.seItem, function() {
+					idx += ',' + this.data_id;
+				});
+
+				idx = idx.substr(1);
+				Feng.confirm("是否删除选中项？", function () {
+					var ajax = new $ax(Feng.ctxPath + "/FormData/delete", function (data) {
+						if ('00' === data.status) {
+							Feng.success(data.msg);
+							CodeGoods.table.refresh();
+						} else {
+							Feng.error(data.msg);
+						}
+					});
+					ajax.set('data_ids', idx);
+					ajax.set('extend_id', '{$extend_id}');
+					ajax.start();
+				});
+			}
+		}
+	}
+	
+	CodeGoods.importData = function (value) {
+		var index = layer.open({type: 2,title: '数据导入',area: ['500px', '300px'],fix: false, maxmin: true,content: Feng.ctxPath + '/FormData/importData?extend_id={$extend_id}'});
+		this.layerIndex = index;
+	}
+	
+	CodeGoods.dumpData = function (value) {
+		Feng.confirm("是否确定导出记录?", function() {
+			var index = layer.msg('正在导出下载，请耐心等待...', {
+				time : 3600000,
+				icon : 16,
+				shade : 0.01
+			});
+			var queryData = CodeGoods.formParams();
+			window.location.href = Feng.ctxPath + '/FormData/dumpData?extend_id={$extend_id}&' + Feng.parseParam(queryData);
+			setTimeout(function() {
+				layer.close(index)
+			}, 1000);
+		});
+	}
+
+
+	CodeGoods.search = function() {
+		CodeGoods.table.refresh({query : CodeGoods.formParams()});
+	};
+
+	$(function() {
+		var defaultColunms = CodeGoods.initColumn();
+		var url = location.search;
+		var table = new BSTable(CodeGoods.id, Feng.ctxPath+"/FormData/index/extend_id/{$extend_id}"+url,defaultColunms,20);
+		table.setPaginationType("server");
+		table.setQueryParams(CodeGoods.formParams());
+		CodeGoods.table = table.init();
+	});
+</script>
+{/block}

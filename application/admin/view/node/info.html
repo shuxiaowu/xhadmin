@@ -1,0 +1,93 @@
+{extend name='common/_container'}
+{block name="content"}
+<div class="ibox float-e-margins">
+<input type="hidden" name='id' id='id' value="{$info.id}" />
+	<div class="ibox-content layui-form">
+		<div class="form-horizontal" id="CodeInfoForm">
+			<div class="row">
+				<div class="col-sm-12">
+				<!-- form start -->
+					<div class="form-group">
+						<label class="col-sm-2 control-label">所属分组：</label>
+						<div class="col-sm-9">
+							<select lay-ignore name="pid" class="form-control" id="pid">
+								<option value="">请选择</option>
+								{sql query="select id,title,pid from pre_node"}
+									<option value="{$sql.id}" {if condition="$info.pid eq $sql.id"}selected{/if}>{$sql.title}</option>
+								{/sql}
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">中文名称：</label>
+						<div class="col-sm-9">
+							<input type="text" id="title" value="{$info.title}" name="title" class="form-control" placeholder="请输入中文名称">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">英文名称：</label>
+						<div class="col-sm-9">
+							<input type="text" id="val" value="{$info.val}" name="val" class="form-control" placeholder="请输入英文名称">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">排序：</label>
+						<div class="col-sm-9">
+							<?php if(!isset($info['sortid'])){ $info['sortid'] = 100; }; ?>
+							<input type="text" id="sortid" value="{$info.sortid}" name="sortid" class="form-control" placeholder="请输入排序">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">状态：</label>
+						<div class="col-sm-9">
+							<?php if(!isset($info['status'])){ $info['status'] = 10; }; ?>
+							<input name="status" value="10" type="radio" {if condition="$info.status eq '10'"}checked{/if} title="正常">
+							<input name="status" value="1" type="radio" {if condition="$info.status eq '1'"}checked{/if} title="禁用">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">是否左侧菜单：</label>
+						<div class="col-sm-9">
+							<?php if(!isset($info['is_menu'])){ $info['is_menu'] = 1; }; ?>
+							<input name="is_menu" value="1" type="radio" {if condition="$info.is_menu eq '1'"}checked{/if} title="是">
+							<input name="is_menu" value="2" type="radio" {if condition="$info.is_menu eq '2'"}checked{/if} title="否">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">图标：</label>
+						<div class="col-sm-9">
+							<input type="text" id="icon" value="{$info.icon}" name="icon" class="form-control" placeholder="请输入图标">
+							<span class="help-block m-b-none"><a  target="_blank" style="color:#ff0000" onclick="CodeInfoDlg.icon('menu_icon')">点击查看图标列表 </a></span>
+						</div>
+					</div>
+					
+				<!-- form end -->
+				</div>
+			</div>
+			<div class="hr-line-dashed"></div>
+			<div class="row btn-group-m-t">
+				<div class="col-sm-9 col-sm-offset-1">
+					<button type="button" class="btn btn-primary" onclick="{if condition="$info.id neq ''"}CodeInfoDlg.update(){else/}CodeInfoDlg.add(){/if}" id="ensure">
+						<i class="fa fa-check"></i>&nbsp;确认提交
+					</button>
+					<button type="button" class="btn btn-danger" onclick="CodeInfoDlg.close()" id="cancel">
+						<i class="fa fa-eraser"></i>&nbsp;取消
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="__PUBLIC__/static/js/admin/Node.js?t=<?php echo rand(1000,9999)?>" charset="utf-8"></script>
+<script src="__PUBLIC__/static/js/upload.js" charset="utf-8"></script>
+<script src="__PUBLIC__/static/js/plugins/layui/layui.js?t=1498856285724" charset="utf-8"></script>
+<script>
+layui.config({dir: '__PUBLIC__/static/js/plugins/layui/'});
+	layui.use(['layer', 'form'], function () {
+	window.layer = layui.layer;
+	window.form = layui.form();
+});
+</script>
+
+
+{/block}

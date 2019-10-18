@@ -1,0 +1,110 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=7">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$media.title}</title>
+<meta name="keywords" content="{$media.keywords}">
+<meta name="description" content="{$media.description}">
+<link href="__PUBLIC__/static/cms/css/HituxBlue/inner.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__/static/cms/css/HituxBlue/common.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__/static/cms/qqkefu/HituxBlue/qq_right.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__PUBLIC__/static/cms/js/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/cms/js/functions.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/cms/images/iepng/iepngfix_tilebg.js"></script>
+</head>
+
+
+<body>
+
+<div id="wrapper">
+
+<!--head start-->
+{include file="index@index/header"}
+<!--head end-->
+<!--body start-->
+<div id="body">
+<!--focus start-->
+<div id="InnerBanner">
+
+</div>
+<!--foncus end-->
+<div class="HeightTab clearfix"></div>
+<!--inner start -->
+<div class="inner">
+<!--left start-->
+<div class="left">
+{include file="index@index/left"}
+</div>
+<!--left end-->
+<!--right start-->
+<div class="right">
+<div class="Position"><span>{$position}</span></div>
+<div class="HeightTab clearfix"></div>
+<!--main start-->
+<div class="main">
+
+<!--content start-->
+<div class="content">
+<div class="title"><h3>{$info.title} </h3></div>
+<div class="infos">{$info.create_time|date="Y-m-d H:i:s",###}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击：<script language="javascript" src="{:url('index/view/hits',['content_id'=>$info['content_id']])}"></script></div>
+<div class="maincontent clearfix">
+
+<div class="maincontent clearfix">
+
+拓展字段缩略图：<img src="{$info.thumb}"><br>
+<br/>
+拓展字段描述：{$info.des}<br/><br/>
+拓展字段编辑器1：{$info.xheditor}<br/><br/>
+拓展字段编辑器2：{$info.ueditor}
+
+
+</div>
+<br/>
+<br/>
+<br/>
+{$info.detail}
+
+</div>
+
+
+
+
+
+<div class="prenext">
+<ul><li>上一篇：{$shownext[0]}</li><li>下一篇：{$shownext[1]}</li></ul>
+</div>
+
+</div>
+
+</div>
+<!--content end-->
+
+</div>
+<!--main end-->
+</div>
+<!--right end-->
+</div>
+<!--inner end-->
+</div>
+<!--body end-->
+<div class="HeightTab clearfix"></div>
+<!--footer start-->
+{include file="index@index/foot"}
+<!--footer end -->
+
+
+</div>
+<script type="text/javascript">
+window.onerror=function(){return true;}
+</script>
+</body>
+</html>
+<!--
+Powered By HuiguerCMS ASP V3.6   
+-->
+
+
+
+

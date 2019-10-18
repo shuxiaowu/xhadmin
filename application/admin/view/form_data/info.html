@@ -1,0 +1,98 @@
+{extend name='common/_container'}
+{block name="content"}
+<div class="ibox float-e-margins">
+<input type="hidden" name='data_id' id='data_id' value="{$data_id}" />
+<input type="hidden" name='extend_id' id='extend_id' value="{$extend_id}" />
+	<div class="ibox-content layui-form">
+		<div class="form-horizontal" id="CodeInfoForm">
+			<div class="row">
+				<div class="col-sm-12">
+				<!-- form start -->
+					{$formStr}
+				<!-- form end -->
+				</div>
+			</div>
+			<div class="hr-line-dashed"></div>
+			<div class="row btn-group-m-t">
+				<div class="col-sm-9 col-sm-offset-1">
+					<button type="button" class="btn btn-primary" onclick="{if condition="$data_id neq ''"}CodeInfoDlg.update(){else/}CodeInfoDlg.add(){/if}" id="ensure">
+						<i class="fa fa-check"></i>&nbsp;确认提交
+					</button>
+					<button type="button" class="btn btn-danger" onclick="CodeInfoDlg.close()" id="cancel">
+						<i class="fa fa-eraser"></i>&nbsp;取消
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="__PUBLIC__/static/js/admin/FormData.js?t=<?php echo rand(1000,9999)?>" charset="utf-8"></script>
+<script src="__PUBLIC__/static/js/upload.js" charset="utf-8"></script>
+<script src="__PUBLIC__/static/js/plugins/layui/layui.js?t=1498856285724" charset="utf-8"></script>
+<script>
+layui.config({dir: '__PUBLIC__/static/js/plugins/layui/'});
+	layui.use(['layer', 'form'], function () {
+	window.layer = layui.layer;
+	window.form = layui.form();
+});
+layui.use('element', function(){
+	var element = layui.element();
+	element.on('tab(test)', function(elem){
+	});
+});
+
+$(function(){
+
+		var ajax = new $ax(Feng.ctxPath + "/FormData/getExtends", function (data) {
+			$("#extend").html(data.data);
+			var fieldList = data;
+			for(var p in fieldList){
+				//单图上传
+				if(fieldList[p]['type'] == 8){
+					uploader(fieldList[p]['field']+'_upload',fieldList[p]['field'],'image',false,'','{:url("admin/Upload/uploadImages")}');
+				}
+				//多图上传
+				if(fieldList[p]['type'] == 9){
+					var images = $("#"+fieldList[p]['field']).val();
+					var default_value;
+					var images = images.substr(0,images.length-1);
+					
+					if(images !== ''){
+						var images_value;
+						if(images.indexOf("|") == -1){
+							images_value = '["'+images+'"]';
+						}else{
+							images_value = JSON.stringify(images.split("|"));
+						}
+						default_value = images_value;				
+					}else{
+						default_value = '';
+					}
+					
+					uploader(fieldList[p]['field']+'_upload',fieldList[p]['field'],'image',true,default_value,'{:url("admin/Upload/uploadImages")}');
+				}
+				//文件上传
+				if(fieldList[p]['type'] == 10){				
+					uploader(fieldList[p]['field']+'_upload',fieldList[p]['field'],'file',false,'','{:url("admin/Upload/uploadImages")}');
+				}
+				
+				layui.config({dir: '__PUBLIC__/static/js/plugins/layui/'});
+					layui.use(['layer', 'form'], function () {
+					window.layer = layui.layer;
+					form = layui.form();
+					form.render();
+				});
+				
+				
+			}
+			
+		});
+		ajax.set('extend_id', '{$extend_id}');
+		ajax.start();
+
+})
+
+</script>
+
+
+{/block}

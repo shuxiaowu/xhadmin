@@ -1,0 +1,286 @@
+{extend name='common/_container'} {block name="content"}
+<div class="row">
+	<div class="col-sm-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>栏目拓展模型</h5>
+				<button style="float:right; margin-top:-10px;" title="刷新页面" type="button" class="btn btn-default btn-outline" onclick="window.location.reload()" id="">
+					<i class="fa fa-refresh"></i>
+				</button>
+			</div>
+			<div class="ibox-content">
+				<div class="row row-lg">
+					<div class="col-sm-12">
+						<div class="row" id="searchGroup">
+							<!-- search start -->
+							<div class="col-sm-2">
+								<div class="input-group">
+									<div class="input-group-btn">
+										<button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">名称</button>
+									</div>
+									<input type="text" class="form-control" id="title" placeholder="名称" />
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="input-group">
+									<div class="input-group-btn">
+										<button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">表名</button>
+									</div>
+									<input type="text" class="form-control" id="table_name" placeholder="表名" />
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="input-group">
+									<div class="input-group-btn">
+										<button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">类别</button>
+									</div>
+									<select class="form-control" id="type">
+										<option value="">请选择</option>
+										<option value="1">内容拓展模型</option>
+										<option value="2">表单模型</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="input-group">
+									<div class="input-group-btn">
+										<button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">状态</button>
+									</div>
+									<select class="form-control" id="status">
+										<option value="">请选择</option>
+										<option value="10">正常</option>
+										<option value="0">禁用</option>
+									</select>
+								</div>
+							</div>
+							<!-- search end -->
+							<div class="col-sm-2">
+									<button type="button" class="btn btn-primary " onclick="CodeGoods.search()" id="">
+										<i class="fa fa-search"></i>&nbsp;搜索
+									</button>
+							</div>
+						</div>
+						<div id="CodeGoodsTableToolbar" role="group">
+							{if condition="in_array('/admin/Extend/add',session('admin.nodes')) || session('admin.role') eq 1"}
+							<button type="button" id="add" class="btn btn-primary button-margin" onclick="CodeGoods.add()">
+								<i class="fa fa-plus"></i>&nbsp;添加
+							</button>
+							{/if}
+							{if condition="in_array('/admin/Extend/update',session('admin.nodes')) || session('admin.role') eq 1"}
+							<button type="button" id="update" class="btn btn-primary button-margin" onclick="CodeGoods.update()">
+								<i class="fa fa-edit"></i>&nbsp;修改
+							</button>
+							{/if}
+							{if condition="in_array('/admin/Extend/delete',session('admin.nodes')) || session('admin.role') eq 1"}
+							<button type="button" id="delete" class="btn btn-danger button-margin" onclick="CodeGoods.delete()">
+								<i class="fa fa-trash"></i>&nbsp;删除
+							</button>
+							{/if}
+							{if condition="in_array('/admin/Field/index',session('admin.nodes')) || session('admin.role') eq 1"}
+							<button type="button" id="fieldlist" class="btn btn-primary button-margin" onclick="CodeGoods.fieldlist()">
+							<i class="fa fa-plus"></i>&nbsp;字段管理
+							</button>
+							{/if}
+						</div>
+						<table id="CodeGoodsTable" data-mobile-responsive="true" data-click-to-select="true">
+							<thead><tr><th data-field="selectItem" data-checkbox="true"></th></tr></thead>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	var CodeGoods = {id: "CodeGoodsTable",seItem: null,table: null,layerIndex: -1};
+
+	CodeGoods.initColumn = function () {
+ 		return [
+ 			{field: 'selectItem', radio: true},
+ 			{title: '编号', field: 'extend_id', visible: true, align: 'center', valign: 'middle'},
+ 			{title: '名称', field: 'title', visible: true, align: 'center', valign: 'middle'},
+ 			{title: '表名', field: 'table_name', visible: true, align: 'center', valign: 'middle'},
+ 			{title: '类别', field: 'type', visible: true, align: 'center', valign: 'middle',formatter: 'CodeGoods.typeFormatter'},
+ 			{title: '状态', field: 'status', visible: true, align: 'center', valign: 'middle',formatter: 'CodeGoods.statusFormatter'},
+			{title: '排序', field: 'sortid', visible: true, align: 'center', valign: 'middle',formatter: 'CodeGoods.sortFormatter'},
+ 			{title: '操作', field: 'extend_id', visible: true, align: 'center', valign: 'middle',formatter: 'CodeGoods.buttonFormatter'},
+ 		];
+ 	};
+
+	CodeGoods.buttonFormatter = function(value,row,index) {
+		if(value){
+			var str= '';
+			str += '<button type="button" class="btn btn-primary btn-xs" title="字段管理"  onclick="CodeGoods.fieldlist('+value+')"><i class="fa fa-outdent"></i></button>&nbsp;'
+			str += '<button type="button" class="btn btn-primary btn-xs" title="修改"  onclick="CodeGoods.update('+value+')"><i class="fa fa-edit"></i></button>&nbsp;'
+			str += '<button type="button" class="btn btn-danger btn-xs" title="删除"  onclick="CodeGoods.delete('+value+')"><i class="fa fa-trash"></i></button>&nbsp;'
+			return str;
+		}
+	}
+	
+	CodeGoods.sortFormatter = function(value,row,index) {
+		return '<input type="text" value="'+value+'" onblur="CodeGoods.upsort('+row.extend_id+',this.value)" style="width:50px; border:1px solid #ddd; text-align:center">';
+	}
+	
+	CodeGoods.upsort = function(id,sortid)
+    {
+		var ajax = new $ax(Feng.ctxPath + "/Extend/updateSort", function (data) {
+			if ('00' === data.status) {
+			} else {
+				Feng.error(data.msg);
+			}
+		});
+		ajax.set('sortid', sortid);
+		ajax.set('extend_id', id);
+		ajax.start();
+    }
+	
+	CodeGoods.arrowFormatter = function(value,row,index) {
+		return '<i class="fa fa-long-arrow-up" onclick="CodeGoods.sort('+value+',1)" style="cursor:pointer;" title="上移"></i>&nbsp;<i class="fa fa-long-arrow-down" style="cursor:pointer;" onclick="CodeGoods.sort('+value+',2)"  title="下移"></i>';
+	}
+	
+	CodeGoods.sort = function (value,type) {
+		var ajax = new $ax(Feng.ctxPath + "/Extend/setSort", function (data) {
+			if ('00' === data.status) {
+					Feng.success(data.msg);
+					CodeGoods.table.refresh();
+			} else {
+				Feng.error(data.msg);
+			}
+		});
+		ajax.set('extend_id', value);
+		ajax.set('type', type);
+		ajax.start();
+	}
+
+	CodeGoods.typeFormatter = function(value,row,index) {
+		if(value !== null){
+			var value = value.toString();
+			switch(value){
+				case '1':
+					return '<span class="label label-primary">内容拓展模型</span>';
+				break;
+				case '2':
+					return '<span class="label label-success">表单模型</span>';
+				break;
+			}
+		}
+	}
+
+	CodeGoods.statusFormatter = function(value,row,index) {
+		if(value !== null){
+			var value = value.toString();
+			switch(value){
+				case '10':
+					return '<span class="label label-primary">正常</span>';
+				break;
+				case '0':
+					return '<span class="label label-danger">禁用</span>';
+				break;
+			}
+		}
+	}
+
+	CodeGoods.formParams = function() {
+		var queryData = {};
+		queryData['title'] = $("#title").val();
+		queryData['table_name'] = $("#table_name").val();
+		queryData['type'] = $("#type").val();
+		queryData['status'] = $("#status").val();
+		return queryData;
+	}
+
+	CodeGoods.check = function () {
+		var selected = $('#' + this.id).bootstrapTable('getSelections');
+		if(selected.length == 0){
+			Feng.info("请先选中表格中的某一记录！");
+			return false;
+		}else{
+			CodeGoods.seItem = selected[0];
+			return true;
+		}
+	};
+
+	CodeGoods.add = function (value) {
+		var url = location.search;
+		var index = layer.open({type: 2,title: '创建数据',area: ['800px', '550px'],fix: false, maxmin: true,content: Feng.ctxPath + '/Extend/add'+url});
+		this.layerIndex = index;
+	}
+
+
+	CodeGoods.update = function (value) {
+		if(value){
+			var index = layer.open({type: 2,title: '编辑数据',area: ['800px', '550px'],fix: false, maxmin: true,content: Feng.ctxPath + '/Extend/update/extend_id/'+value});
+		}else{
+			if (this.check()) {
+				var index = layer.open({type: 2,title: '编辑数据',area: ['800px', '550px'],fix: false, maxmin: true,content: Feng.ctxPath + '/Extend/update/extend_id/'+this.seItem.extend_id});
+				this.layerIndex = index;
+			}
+		}
+	}
+
+
+	CodeGoods.delete = function (value) {
+		if(value){
+			Feng.confirm("是否删除选中项？", function () {
+				var ajax = new $ax(Feng.ctxPath + "/Extend/delete", function (data) {
+					if ('00' === data.status) {
+						Feng.success(data.msg);
+						CodeGoods.table.refresh();
+					} else {
+						Feng.error(data.msg);
+					}
+				});
+				ajax.set('ids', value);
+				ajax.start();
+			});
+		}else{
+			if (this.check()) {
+				
+				Feng.confirm("是否删除选中项？", function () {
+					var ajax = new $ax(Feng.ctxPath + "/Extend/delete", function (data) {
+						if ('00' === data.status) {
+							Feng.success(data.msg);
+							CodeGoods.table.refresh();
+						} else {
+							Feng.error(data.msg);
+						}
+					});
+					ajax.set('ids', this.seItem.extend_id);
+					ajax.start();
+				});
+			}
+		}
+	}
+	
+	CodeGoods.fieldlist = function (value) {
+		if(value){
+			var index = layer.open({type: 2,title: '字段管理',area: ['99%', '99%'],fix: false, maxmin: true,content: Feng.ctxPath + '/Field/index/extend_id/'+value});
+		}else{
+			if (this.check()) {
+				var index = layer.open({type: 2,title: '字段管理',area: ['99%', '99%'],fix: false, maxmin: true,content: Feng.ctxPath + '/Field/index/extend_id/'+this.seItem.extend_id});
+				this.layerIndex = index;
+			}
+		}
+	}
+
+
+	CodeGoods.search = function() {
+		CodeGoods.table.refresh({query : CodeGoods.formParams()});
+	};
+
+	CodeGoods.orderby = function() {
+		var queryData = CodeGoods.formParams();
+		queryData['orderby'] = $("#orderby").val();
+		CodeGoods.table.refresh({query : queryData});
+	};
+
+	$(function() {
+		var defaultColunms = CodeGoods.initColumn();
+		var url = location.search;
+		var table = new BSTable(CodeGoods.id, Feng.ctxPath+"/Extend/index"+url,defaultColunms,20);
+		table.setPaginationType("server");
+		table.setQueryParams(CodeGoods.formParams());
+		CodeGoods.table = table.init();
+	});
+</script>
+{/block}

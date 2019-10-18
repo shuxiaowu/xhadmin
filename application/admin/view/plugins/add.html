@@ -1,0 +1,97 @@
+{extend name='common/_container'}
+{block name="content"}
+<div class="ibox float-e-margins">
+<input type="hidden" name='plugins_id' id='plugins_id' value="{$info.plugins_id}" />
+	<div class="ibox-content layui-form">
+		<div class="form-horizontal" id="CodeInfoForm">
+			<div class="row">
+				<div class="col-sm-12">
+				<!-- form start -->
+					<div class="form-group">
+						<label class="col-sm-2 control-label">插件名称：</label>
+						<div class="col-sm-9">
+							<input type="text" id="plugins_name" value="{$info.plugins_name}" name="plugins_name" class="form-control" placeholder="请输入插件名称">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">插件目录：</label>
+						<div class="col-sm-9">
+							<input type="text" id="plugins_dir" value="{$info.plugins_dir}" name="plugins_dir" class="form-control" placeholder="请输入插件目录">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">插件介绍：</label>
+						<div class="col-sm-9">
+							<textarea id="description" name="description"  class="form-control" placeholder="请输入插件介绍">{$info.description}</textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">版本号：</label>
+						<div class="col-sm-9">
+							<input type="text" id="version" value="{$info.version}" name="version" class="form-control" placeholder="请输入版本号">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">作者：</label>
+						<div class="col-sm-9">
+							<input type="text" id="author" value="{$info.author}" name="author" class="form-control" placeholder="请输入作者">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">挂载钩子：</label>
+						<div class="col-sm-9">
+							<input type="text" id="hook_name" value="{$info.hook_name}" name="hook_name" class="form-control" placeholder="请输入挂载钩子">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">状态：</label>
+						<div class="col-sm-9">
+							<?php if(!isset($info['status'])){ $info['status'] = 10; }; ?>
+							<input name="status" value="10" type="radio" {if condition="$info.status eq '10'"}checked{/if} title="正常">
+							<input name="status" value="0" type="radio" {if condition="$info.status eq '0'"}checked{/if} title="禁用">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">类型：</label>
+						<div class="col-sm-9">
+							<?php if(!isset($info['type'])){ $info['type'] = 1; }; ?>
+							<input name="type" value="1" type="radio" {if condition="$info.type eq '1'"}checked{/if} title="模块">
+							<input name="type" value="2" type="radio" {if condition="$info.type eq '2'"}checked{/if} title="行为">
+							<input name="type" value="3" type="radio" {if condition="$info.type eq '3'"}checked{/if} title="视图">
+						</div>
+					</div>
+				<!-- form end -->
+				</div>
+			</div>
+			<div class="hr-line-dashed"></div>
+			<div class="row btn-group-m-t">
+				<div class="col-sm-9 col-sm-offset-1">
+					<button type="button" class="btn btn-primary" onclick="CodeInfoDlg.add()" id="ensure">
+						<i class="fa fa-check"></i>&nbsp;确认提交
+					</button>
+					<button type="button" class="btn btn-danger" onclick="CodeInfoDlg.close()" id="cancel">
+						<i class="fa fa-eraser"></i>&nbsp;取消
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="__PUBLIC__/static/js/admin/Plugins.js?t=<?php echo rand(1000,9999)?>" charset="utf-8"></script>
+<script src="__PUBLIC__/static/js/upload.js" charset="utf-8"></script>
+<script src="__PUBLIC__/static/js/plugins/layui/layui.js?t=1498856285724" charset="utf-8"></script>
+<script>
+layui.config({dir: '__PUBLIC__/static/js/plugins/layui/'});
+	layui.use(['layer', 'form'], function () {
+	window.layer = layui.layer;
+	window.form = layui.form();
+});
+layui.use('element', function(){
+	var element = layui.element();
+	element.on('tab(test)', function(elem){
+	});
+});
+</script>
+
+
+{/block}

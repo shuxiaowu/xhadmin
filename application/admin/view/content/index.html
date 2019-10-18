@@ -1,0 +1,445 @@
+{extend name='common/_container'} {block name="content"}
+<style>
+a {color:#666}
+</style>
+<div class="row ibox" style="background-color:#fff; margin-top:-15px;">
+	<div class="col-sm-2" >
+		<div class="ibox-title" style="border:none;">
+			<h3 style="font-size:16px; color:#000; margin-bottom:10px;">栏目列表</h3>	
+		</div>
+		<ul id="treeList"></ul>
+	</div>
+	<div class="col-sm-10" style="border-left:10px solid #ddd;">
+		<div class="float-e-margins">
+			<div class="ibox-title" style="border:none;">
+			<h3>文章列表</h3>	
+		</div>
+			<div class="ibox-content">
+				<div class="row row-lg">
+					<div class="col-sm-12">
+						<div class="row" id="searchGroup">
+							<!-- search start -->
+							<div class="col-sm-3">
+								<div class="input-group">
+									<div class="input-group-btn">
+										<button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">文章标题</button>
+									</div>
+									<input type="text" class="form-control" id="title" placeholder="文章标题" />
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="input-group">
+									<div class="input-group-btn">
+										<button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">所属栏目</button>
+									</div>
+									<select class="form-control" id="class_id">
+										<option value="">请选择</option>
+										{sql query="select class_id,class_name,pid from pre_catagory"}
+										<option value="{$sql.class_id}">{$sql.class_name}</option>
+										{/sql}
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="input-group">
+									<div class="input-group-btn">
+										<button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">文章状态</button>
+									</div>
+									<select class="form-control" id="status">
+										<option value="">请选择</option>
+										<option value="10">发布</option>
+										<option value="danger">不发布</option>
+									</select>
+									
+								</div>
+							</div>
+							<!-- search end -->
+							<div class="col-sm-2">
+									<button type="button" class="btn btn-primary " onclick="CodeGoods.search()" id="">
+										<i class="fa fa-search"></i>&nbsp;搜索
+									</button>
+							</div>
+						</div>
+						<div id="CodeGoodsTableToolbar" role="group">
+							{if condition="in_array('/admin/Content/add',session('admin.nodes')) || session('admin.role') eq 1"}
+							<button type="button" id="add" class="btn btn-primary button-margin" onclick="CodeGoods.add()">
+								<i class="fa fa-plus"></i>&nbsp;添加
+							</button>
+							{/if}
+							{if condition="in_array('/admin/Content/update',session('admin.nodes')) || session('admin.role') eq 1"}
+							<button type="button" id="update" class="btn btn-primary button-margin" onclick="CodeGoods.update()">
+								<i class="fa fa-edit"></i>&nbsp;修改
+							</button>
+							{/if}
+							{if condition="in_array('/admin/Content/setStatus',session('admin.nodes')) || session('admin.role') eq 1"}
+							<button type="button" id="setStatus" class="btn btn-success button-margin" onclick="CodeGoods.setStatus(1)">
+								<i class="fa fa-edit"></i>&nbsp;发布
+							</button>
+							{/if}
+							{if condition="in_array('/admin/Content/setStatus',session('admin.nodes')) || session('admin.role') eq 1"}
+							<button type="button" id="setStatus" class="btn btn-success button-margin" onclick="CodeGoods.setStatus(2)">
+								<i class="fa fa-edit"></i>&nbsp;草稿
+							</button>
+							{/if}
+							{if condition="in_array('/admin/Content/delete',session('admin.nodes')) || session('admin.role') eq 1"}
+							<button type="button" id="delete" class="btn btn-danger button-margin" onclick="CodeGoods.delete()">
+								<i class="fa fa-trash"></i>&nbsp;删除
+							</button>
+							{/if}
+							<select style="border:1px solid #ddd;" class="btn" id="selectAction">
+								<option value="">选择操作</option>
+								<option value="100">移动</option>
+								{sql query="select position_id,title from pre_position"}
+								<option value="{$sql.position_id}">{$sql.title}</option>
+								{/sql}
+							</select>
+							<select style="border:1px solid #ddd;" class="btn" id="moveId">
+								<option value="">移动至</option>
+								{sql query="select class_id,class_name,pid from pre_catagory"}
+								<option value="{$sql.class_id}">{$sql.class_name}</option>
+								{/sql}
+							</select>
+							<button type="button" class="btn btn-primary button-margin" onclick="CodeGoods.do()" id="">
+								<i class="fa fa-check"></i>&nbsp;确定
+							</button>
+						</div>
+						<table id="CodeGoodsTable" data-mobile-responsive="true" data-click-to-select="true">
+							<thead><tr><th data-field="selectItem" data-checkbox="true"></th></tr></thead>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	var CodeGoods = {id: "CodeGoodsTable",seItem: null,table: null,layerIndex: -1};
+
+	CodeGoods.initColumn = function () {
+ 		return [
+ 			{field: 'selectItem', checkbox: true},
+ 			{title: '编号', field: 'content_id', visible: true, align: 'center', valign: 'middle'},
+ 			{title: '文章标题', field: 'title', visible: true, align: 'left', valign: 'middle'},
+ 			{title: '所属栏目', field: 'class_name', visible: true, align: 'center', valign: 'middle'},
+ 			{title: '文章状态', field: 'status', visible: true, align: 'center', valign: 'middle',formatter: 'CodeGoods.statusFormatter'},
+			{title: '排序', field: 'sortid', visible: true, align: 'center', valign: 'middle',formatter: 'CodeGoods.sortFormatter'},
+ 			{title: '发布时间', field: 'create_time', visible: true, align: 'center', valign: 'middle',formatter: 'CodeGoods.create_timeFormatter'},
+			{title: '操作', field: 'content_id', visible: true, align: 'center', valign: 'middle',formatter: 'CodeGoods.buttonFormatter'},	
+ 		];
+ 	};
+	
+
+	CodeGoods.buttonFormatter = function(value,row,index) {
+		if(value){
+			var str= '';
+			str += '<button type="button" class="btn btn-primary btn-xs" title="修改"  onclick="CodeGoods.update('+value+')"><i class="fa fa-edit"></i></button>&nbsp;'
+			str += '<button type="button" class="btn btn-danger btn-xs" title="删除"  onclick="CodeGoods.delete('+value+')"><i class="fa fa-trash"></i></button>&nbsp;'
+			return str;
+		}
+	}
+	
+	CodeGoods.sortFormatter = function(value,row,index) {
+		return '<input type="text" value="'+value+'" onblur="CodeGoods.upsort('+row.content_id+',this.value)" style="width:50px; border:1px solid #ddd; text-align:center">';
+	}
+	
+	CodeGoods.upsort = function(content_id,sortid)
+    {
+		var ajax = new $ax(Feng.ctxPath + "/Content/updateSort", function (data) {
+			if ('00' === data.status) {
+			} else {
+				Feng.error(data.msg);
+			}
+		});
+		ajax.set('sortid', sortid);
+		ajax.set('content_id', content_id);
+		ajax.start();
+    }
+	
+	CodeGoods.statusFormatter = function(value,row,index) {
+		if(value !== null){
+			var value = value.toString();
+			switch(value){
+				case '10':
+					return '<span class="label label-primary">发布</span>';
+				break;
+				case '0':
+					return '<span class="label label-danger">草稿</span>';
+				break;
+			}
+		}
+	}
+
+	CodeGoods.create_timeFormatter = function(value,row,index) {
+		if(value){
+			return formatDateTime(value);	
+		}
+	}
+
+	CodeGoods.formParams = function() {
+		var queryData = {};
+		queryData['title'] = $("#title").val();
+		queryData['class_id'] = $("#class_id").val();
+		queryData['status'] = $("#status").val();
+		queryData['create_time'] = $("#create_time").val();
+		return queryData;
+	}
+
+	CodeGoods.check = function () {
+		var selected = $('#' + this.id).bootstrapTable('getSelections');
+		if(selected.length == 0){
+			Feng.info("请先选中表格中的某一记录！");
+			return false;
+		}else{
+			CodeGoods.seItem = selected;
+			return true;
+		}
+	};
+
+	CodeGoods.add = function (value) {
+		var url = location.search;
+		var index = layer.open({type: 2,title: '创建数据',area: ['800px', '100%'],fix: false, maxmin: true,content: Feng.ctxPath + '/Content/add'+url});
+		this.layerIndex = index;
+	}
+
+
+	CodeGoods.update = function (value) {
+		if(value){
+			var index = layer.open({type: 2,title: '编辑数据',area: ['800px', '100%'],fix: false, maxmin: true,content: Feng.ctxPath + '/Content/update/content_id/'+value});
+		}else{
+			if (this.check()) {
+				var idx = '';
+
+				$.each(CodeGoods.seItem, function() {
+					idx += ',' + this.content_id;
+				});
+
+				idx = idx.substr(1);
+				if(idx.indexOf(",") !== -1){
+					Feng.info("请选择单条数据！");
+					return false;
+				}
+				var index = layer.open({type: 2,title: '编辑数据',area: ['800px', '100%'],fix: false, maxmin: true,content: Feng.ctxPath + '/Content/update/content_id/'+idx});
+				this.layerIndex = index;
+			}
+		}
+	}
+
+
+	CodeGoods.delete = function (value) {
+		if(value){
+			Feng.confirm("是否删除选中项？", function () {
+				var ajax = new $ax(Feng.ctxPath + "/Content/delete", function (data) {
+					if ('00' === data.status) {
+						Feng.success(data.msg);
+						CodeGoods.table.refresh();
+					} else {
+						Feng.error(data.msg);
+					}
+				});
+				ajax.set('content_ids', value);
+				ajax.start();
+			});
+		}else{
+			if (this.check()) {
+				var idx = '';
+
+				$.each(CodeGoods.seItem, function() {
+					idx += ',' + this.content_id;
+				});
+
+				idx = idx.substr(1);
+				Feng.confirm("是否删除选中项？", function () {
+					var ajax = new $ax(Feng.ctxPath + "/Content/delete", function (data) {
+						if ('00' === data.status) {
+							Feng.success(data.msg);
+							CodeGoods.table.refresh();
+						} else {
+							Feng.error(data.msg);
+						}
+					});
+					ajax.set('content_ids', idx);
+					ajax.start();
+				});
+			}
+		}
+	}
+	
+	CodeGoods.do = function () {
+		
+		var type =  $("#selectAction option:selected").val();
+		if(type == 100){
+			CodeGoods.move();
+		}else{
+			CodeGoods.position(type);
+		}
+	}
+	
+	CodeGoods.move = function (value) {
+		if (this.check()) {
+			var idx = '';
+
+			$.each(CodeGoods.seItem, function() {
+				idx += ',' + this.content_id;
+			});
+			
+			idx = idx.substr(1);
+			
+			var class_id = $("#moveId option:selected").val();
+			if(class_id == ''){
+				Feng.error('请选择移动到的栏目');
+			}
+			
+			Feng.confirm("是否移动选中项？", function () {
+				var ajax = new $ax(Feng.ctxPath + "/Content/move", function (data) {
+					if ('00' === data.status) {
+						Feng.success(data.message);
+						CodeGoods.table.refresh();
+					} else {
+						Feng.error(data.msg);
+					}
+				});
+				ajax.set('content_ids', idx);
+				ajax.set('class_id', class_id);
+				ajax.start();
+			});
+		}
+		
+	}
+	
+	CodeGoods.setStatus = function (value) {
+
+		if (this.check()) {
+			var idx = '';
+
+			$.each(CodeGoods.seItem, function() {
+				idx += ',' + this.content_id;
+			});
+			
+			idx = idx.substr(1);
+			
+			Feng.confirm("是否移动选中项？", function () {
+				var ajax = new $ax(Feng.ctxPath + "/Content/setStatus", function (data) {
+					if ('00' === data.status) {
+						Feng.success(data.message);
+						CodeGoods.table.refresh();
+					} else {
+						Feng.error(data.msg);
+					}
+				});
+				ajax.set('content_ids', idx);
+				ajax.set('value', value);
+				ajax.start();
+			});
+		}
+		
+	}
+	
+	CodeGoods.position = function (type) {
+		if (this.check()) {
+			var idx = '';
+
+			$.each(CodeGoods.seItem, function() {
+				idx += ',' + this.content_id;
+			});
+			
+			idx = idx.substr(1);
+		
+			Feng.confirm("是否操作选中项？", function () {
+				var ajax = new $ax(Feng.ctxPath + "/Content/setPosition", function (data) {
+					if ('00' === data.status) {
+						Feng.success(data.message);
+						CodeGoods.table.refresh();
+					} else {
+						Feng.error(data.msg);
+					}
+				});
+				ajax.set('content_ids', idx);
+				ajax.set('position_id', type);
+				ajax.start();
+			});
+		}
+		
+	}
+
+	
+	CodeGoods.delPosition = function (position_id,content_id) {
+		Feng.confirm("确定删除推荐位吗", function () {
+			var ajax = new $ax(Feng.ctxPath + "/Content/delPosition", function (data) {
+				if ('00' === data.status) {
+					Feng.success(data.message);
+					CodeGoods.table.refresh();
+				} else {
+					Feng.error(data.msg);
+				}
+			});
+			ajax.set('content_id', content_id);
+			ajax.set('position_id', position_id);
+			ajax.start();
+		});
+		
+	}
+
+
+	CodeGoods.search = function() {
+		CodeGoods.table.refresh({query : CodeGoods.formParams()});
+	};
+
+	CodeGoods.orderby = function() {
+		var queryData = CodeGoods.formParams();
+		queryData['orderby'] = $("#orderby").val();
+		CodeGoods.table.refresh({query : queryData});
+	};
+
+	$(function() {
+		$("#moveId").hide();
+		$('#selectAction').change(function() {
+			var type = $(this).val();
+			if(type == 100){
+				$("#moveId").show();
+			}else{
+				$("#moveId").hide();
+			}
+		});
+
+		var defaultColunms = CodeGoods.initColumn();
+		var url = location.search;
+		var table = new BSTable(CodeGoods.id, Feng.ctxPath+"/Content/index/"+url,defaultColunms,20);
+		
+		table.setPaginationType("server");
+		table.setQueryParams(CodeGoods.formParams());
+		CodeGoods.table = table.init();	
+	});
+	
+	
+	
+
+	
+		
+</script>
+
+
+<script src="__PUBLIC__/static/js/plugins/layui/layui.js?t=1498856285724" charset="utf-8"></script>
+<script>
+layui.config({dir: '__PUBLIC__/static/js/plugins/layui/'});
+	layui.use(['layer'], function () {
+	window.layer = layui.layer;
+});
+layui.use('tree', function(){
+	layui.tree({
+		elem: '#treeList',
+		nodes: JSON.parse('{$catagoryInfo}'),
+		click:function(node) {
+			var queryData = CodeGoods.formParams();
+			queryData['class_id'] = node.id;
+			CodeGoods.table.refresh({query : queryData});
+		}
+	});	
+});
+
+//监听指定开关
+       
+
+</script>
+
+{/block}

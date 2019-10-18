@@ -1,0 +1,230 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=7">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Emulex第五代FC HBA实现230万IOPS！ - xhcms建站系统</title>
+<meta name="keywords" content="">
+<meta name="description" content="HBA光纤卡、万兆网卡、光纤网卡、10G网卡、HCA卡、阵列卡、NAS网络存储器、服务器、存储配件专业供应商">
+<link href="http://xhcms.me/static/cms/css/HituxBlue/inner.css" rel="stylesheet" type="text/css" />
+<link href="http://xhcms.me/static/cms/css/HituxBlue/common.css" rel="stylesheet" type="text/css" />
+<link href="http://xhcms.me/static/cms/qqkefu/HituxBlue/qq_right.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="http://xhcms.me/static/cms/js/jquery.min.js"></script>
+<script type="text/javascript" src="http://xhcms.me/static/cms/js/functions.js"></script>
+<script type="text/javascript" src="http://xhcms.me/static/cms/images/iepng/iepngfix_tilebg.js"></script>
+</head>
+
+
+<body>
+
+<div id="wrapper">
+
+<!--head start-->
+<div id="head">
+
+<!--top start -->
+<div class="top">
+<div class="TopInfo"><div class="link"><a onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.wellcard.cn');" href="#">设为首页</a> | <a href="javascript:window.external.AddFavorite('http://www.wellcard.cn','有数配件')">加入收藏</a></div>
+</div>
+<div class="clearfix"></div>
+<div class="TopLogo">
+<div class="logo"><a href="/"><img src="/uploads/admin/15569621469008.png" alt="有数配件"></a></div>
+<!--<div class="tel">
+<div class="SearchBar">
+<form method="get" action="/Search/index.asp">
+				<input type="text" name="q" id="search-text" size="15" onBlur="if(this.value=='') this.value='请输入关键词';" 
+onfocus="if(this.value=='请输入关键词') this.value='';" value="请输入关键词" /><input type="submit" id="search-submit" value="搜索" />
+			</form>
+</div>
+</div>-->
+<div class="tel">
+<div class="SearchBar">
+<form method="get" action="#">
+				<input type="text" name="q" id="search-text" size="15" onBlur="if(this.value=='') this.value='请输入关键词';" 
+onfocus="if(this.value=='请输入关键词') this.value='';" value="请输入关键词" /><input type="submit" id="search-submit" value="搜索" />
+			</form>
+</div>
+</div>
+</div>
+
+</div>
+<!--top end-->
+
+
+<!--nav start-->
+<div id="NavLink">
+<div class="NavBG">
+<!--Head Menu Start-->
+<ul id='sddm'>
+<li class='CurrentLi'><a href='/'>首  页</a></li> 
+<li>
+<a href='/html/gongsijianjie/index.html' onmouseover=mopen('m1') onmouseout='mclosetime()'>公司简介</a> 
+ <div id='m1' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
+  </div>
+
+</li> 
+<li>
+<a href='/html/chanpinzhongxin/index.html' onmouseover=mopen('m2') onmouseout='mclosetime()'>产品中心</a> 
+ <div id='m2' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
+  <a href='/html/IBMwangka/index.html'>IBM网卡</a>
+  <a href='/html/huipuHPwangkaxilie/index.html'>惠普HP网卡系列</a>
+  <a href='/html/intelwangka/index.html'>intel网卡</a>
+  <a href='/html/bcmwangka/index.html'>bcm网卡</a>
+  <a href='/html/guangxianmokuaixilie/index.html'>光纤模块系列</a>
+  </div>
+
+</li> 
+<li>
+<a href='/html/rencaizhaopin/index.html' onmouseover=mopen('m3') onmouseout='mclosetime()'>人才招聘</a> 
+ <div id='m3' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
+  </div>
+
+</li> 
+<li>
+<a href='/html/xinwenzixun/index.html' onmouseover=mopen('m4') onmouseout='mclosetime()'>新闻资讯</a> 
+ <div id='m4' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
+  </div>
+
+</li> 
+<li>
+<a href='/about/11' onmouseover=mopen('m5') onmouseout='mclosetime()'>在线留言</a> 
+ <div id='m5' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
+  </div>
+
+</li> 
+<li>
+<a href='/html/lianxiwomen/index.html' onmouseover=mopen('m6') onmouseout='mclosetime()'>联系我们</a> 
+ <div id='m6' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
+  </div>
+
+</li> 
+</ul>
+<!--Head Menu End-->
+</div>
+<div class="clearfix"></div>
+</div>
+<!--nav end-->
+
+</div>
+<!--head end-->
+<!--body start-->
+<div id="body">
+<!--focus start-->
+<div id="InnerBanner">
+
+</div>
+<!--foncus end-->
+<div class="HeightTab clearfix"></div>
+<!--inner start -->
+<div class="inner">
+<!--left start-->
+<div class="left">
+<div class="Sbox">
+<div class="topic">产品中心</div>
+<div class="blank"><ul>
+<li><A href='/html/IBMwangka/index.html'>IBM网卡</A></li>
+<li><A href='/html/huipuHPwangkaxilie/index.html'>惠普HP网卡系列</A></li>
+<li><A href='/html/intelwangka/index.html'>intel网卡</A></li>
+<li><A href='/html/bcmwangka/index.html'>bcm网卡</A></li>
+<li><A href='/html/guangxianmokuaixilie/index.html'>光纤模块系列</A></li>
+</ul></div>
+</div>
+<div class="HeightTab clearfix"></div>
+<div class="Sbox">
+<div class="topic">最新资讯&nbsp;&nbsp;&nbsp;New</div>
+<div class="list">
+<dl>
+<dt>2019/03/17</dt><dd><a href='/html/xinwenzixun/23.html' target='_blank'>概论高清、网络化视频存储要求</a></dd>
+<dt>2019/03/17</dt><dd><a href='/html/xinwenzixun/22.html' target='_blank'>英特尔收购QLogic旗下InfiniBand业务</a></dd>
+<dt>2019/03/17</dt><dd><a href='/html/xinwenzixun/21.html' target='_blank'>LSI增强MgaRAID闪存卡更贴近超大规模环境</a></dd>
+<dt>2019/03/17</dt><dd><a href='/html/xinwenzixun/20.html' target='_blank'>PMC亮相IDF 展示12G SAS分层存储方案</a></dd>
+</dl>
+</div>
+
+</div>
+<div class="HeightTab clearfix"></div>
+<div class="Sbox">
+<div class="topic">搜索&nbsp;&nbsp;&nbsp;Search</div>
+<div class="SearchBar">
+<form method="get" action="#">
+				<input type="text" name="q" id="search-text" size="15" onBlur="if(this.value=='') this.value='请输入关键词';" 
+onfocus="if(this.value=='请输入关键词') this.value='';" value="请输入关键词" /><input type="submit" id="search-submit" value="搜索" />
+			</form>
+</div>
+</div>
+</div>
+<!--left end-->
+<!--right start-->
+<div class="right">
+<div class="Position"><span>当前位置：<a href="/index.html">首页</a>&nbsp;&gt;&gt;&nbsp;<a href="/html/chanpinzhongxin/index.html">产品中心</a>&nbsp;&gt;&gt;&nbsp;<a href="/html/IBMwangka/index.html">IBM网卡</a>&nbsp;&gt;&gt;&nbsp;<a href="/html/IBMwangka/ceshilanmu/index.html">测试栏目</a></span></div>
+<div class="HeightTab clearfix"></div>
+<!--main start-->
+<div class="main">
+
+<!--content start-->
+<div class="content">
+<div class="title"><h3>Emulex第五代FC HBA实现230万IOPS！ </h3></div>
+<div class="infos">2019-03-17 19:34:36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击：<script language="javascript" src="/index/view/hits/content_id/16.html"></script></div>
+<div class="maincontent clearfix">
+
+<div class="maincontent clearfix">
+
+拓展字段缩略图：<img src=""><br>
+<br/>
+拓展字段描述：<br/><br/>
+拓展字段编辑器1：<br/><br/>
+拓展字段编辑器2：
+
+</div>
+<br/>
+<br/>
+<br/>
+<p style="padding: 5px 0px; margin: 0px; line-height: 24px; font-family: &quot;Microsoft Yahei&quot;, Arial, Helvetica, sans-serif;">几年前，每秒输入/输出操作数（IOPS）突破10万次都可以说是惊人的事件；但是就在最近，Storage Switzerland与博科、戴尔、Violin Memory（闪存厂商）和Emulex合作进行了实验室测试，在广泛采用现有组件搭建的简单的存储区域网络（SAN）上， 实现了230万IOPS！<br /><br />测试环境在16Gb光纤通道基础架构上采用了4台Dell PowerEdge R910服务器，每台服务器都配有4个Emulex LightPulse第五代光纤通道（FC）LPe16002B主机总线适配器（HBA）。这些板卡用于把服务器连接到一个博科第五代FC 6520交换机上，然后这台交换机再连接到Violin 6616 Flash Memory SAN阵列。安装整套设备仅需一个标准机架，而且机架空间还有空余。</p><p style="padding: 5px 0px; margin: 0px; line-height: 24px; font-family: &quot;Microsoft Yahei&quot;, Arial, Helvetica, sans-serif;">利用快闪存储设备（本例中使用的是4个Violin Flash Memory SAN阵列），我们可以获得快得多的IOPS速度，因为快闪存储的速度最高可比传统存储产品快90%。通过功能强大的新型服务器（本例中采用了4台Dell PowerEdge R910），我们能够真正提高处理事务的速度，把阵列充分利用起来。但是数据是如何从服务器传输到存储系统的呢？当然是通过HBA(Host Bus Adapter)和交换机。Storage Switzerland认为，需要一种周到全面的方式才能搭建出真正高性能的SAN，而我们Emulex认为，SAN的性能高低取决于它最薄弱的链路环节。试想，我们总不能把浇花用的水管接到消防栓上还指望用它扑灭熊熊大火吧！</p><p style="padding: 5px 0px; margin: 0px; line-height: 24px; font-family: &quot;Microsoft Yahei&quot;, Arial, Helvetica, sans-serif;">大型数据中心SAN的连接介质大都运行在50万IOPS的数据速率上，因此230万的IOPS目前看来似乎难以想象。但我们必须基于整体角度考虑，为什么对于当今的数据要求和应用来说，230万IOPS不是一个高得多余（“为什么我需要那么快的SAN”）的指标。</p><p style="padding: 5px 0px; margin: 0px; line-height: 24px; font-family: &quot;Microsoft Yahei&quot;, Arial, Helvetica, sans-serif;">原因之一是“虚拟化”。现在的服务器比过去强大了许多，据估计，每台物理服务器上平均用VMware等监管程序运行着25个虚拟机（VM），实际上我们在服务器上通常看到的密度会更高。在这种VM环境下，如果没有足够强大的HBA，就极有可能产生I/O瓶颈。云应用也在推动I/O性能要求提高。随着越来越多的数据中心实施混合云环境，送入SAN的整体数据量会明显增加。最后，大数据解决方案的发展也需要速度更快的存储产品和更高的I/O性能。就是这些原因最终会迫使我们向16GFC基础架构和快闪存储阵列配置迁移。</p><p style="padding: 5px 0px; margin: 0px; line-height: 24px; font-family: &quot;Microsoft Yahei&quot;, Arial, Helvetica, sans-serif;">但目前许多数据中心还在使用8GFC基础架构（存储系统、交换机以及HBA），而且尚未准备升级到16GFC，它们也可能会选择把钱花在快闪阵列或者服务器侧的快闪缓存上。那么如果基础架构没有改变，升级到16GFC HBA（特别是Emulex第五代产品）有什么好处呢？</p><p style="padding: 5px 0px; margin: 0px; line-height: 24px; font-family: &quot;Microsoft Yahei&quot;, Arial, Helvetica, sans-serif;">理由：首先，Emulex第五代光纤通道HBA能够与8GFC环境无缝结合，实现真正的性能提升，还可以把IOPS提高到原来的5倍（超过120万），同时把延时降到只有8GFC的一半。其次，所有第五代FC HBA都支持PCIe 3.0，这直接提升了运行速度，而且PCIe 3.0在所有新服务器上都是标准配置，既然是这样，为什么不把PCIe 3.0的优点充分利用起来呢？第三，因为无需购买16GFC交换机或存储系统，因此这是最简单、投资最少的升级SAN性能的方法。第四，它是面向未来的，而将来则不可避免地要向16GFC基础架构迁移。此外，Emulex第五代FC HBA还100%向后兼容，用户完全不必担心兼容问题。</p>
+</div>
+
+
+
+
+
+<div class="prenext">
+<ul><li>上一篇：没有了</li><li>下一篇：没有了</li></ul>
+</div>
+
+</div>
+
+</div>
+<!--content end-->
+
+</div>
+<!--main end-->
+</div>
+<!--right end-->
+</div>
+<!--inner end-->
+</div>
+<!--body end-->
+<div class="HeightTab clearfix"></div>
+<!--footer start-->
+<div id="footer">
+<div class="inner">
+<p>
+ <span style="color: rgb(25, 25, 25); font-family: " microsoft="" yahei="" arial="" helvetica="" sans-serif="" text-align:="" center="">Copyright 2005-2019 武汉XXXXX电子有限公司 技术支持:寒塘冷月 qq:274363574 All rights reserved</span><br /></p>
+</div>
+</div>
+<!--footer end -->
+
+
+</div>
+<script type="text/javascript">
+window.onerror=function(){return true;}
+</script>
+</body>
+</html>
+<!--
+Powered By HuiguerCMS ASP V3.6   
+-->
+
+
+
+

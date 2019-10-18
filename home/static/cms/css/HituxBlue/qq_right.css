@@ -1,0 +1,49 @@
+﻿.QQbox ul,.QQbox li{padding:0px;margin:0px;list-style-type: none;}
+.QQbox,.QQbox a,.infobox{font-size:9pt;}
+.QQbox {
+	Z-INDEX: 99;
+	right: 2px;
+	WIDTH: 170px;
+	POSITION: absolute;
+	TOP: 145px;
+	display:block;
+}
+/*.QQbox {
+	Z-INDEX: 99; RIGHT: 0px; WIDTH: 170px; POSITION: absolute; TOP: 100px; right:2px;
+}*/
+.QQbox .press {
+	right: 0px; WIDTH: 26px; CURSOR: pointer; BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; POSITION: absolute; HEIGHT: 136px; BORDER-BOTTOM-STYLE: none
+}
+
+.QQbox .Qlist {
+	LEFT: 0px; WIDTH: 170px
+}
+.QQbox .Qlist .b {
+	FONT-SIZE: 1px; FLOAT: left; WIDTH: 170px; HEIGHT: 6px
+}
+.QQbox .Qlist .infobox {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; FONT-WEIGHT: 700; BACKGROUND: url(siderIM_infobox.gif) #bdc5cb no-repeat; PADDING-BOTTOM: 5px; COLOR: #000; LINE-HEIGHT: 14px; PADDING-TOP: 5px; TEXT-ALIGN: center; clear:both;
+}
+
+
+
+
+.QQbox .Qlist .t {
+	BACKGROUND: url(siderIM_title.gif); HEIGHT: 34px
+}
+.QQbox .Qlist .b {
+	BACKGROUND: url(siderIM_bottom.gif); OVERFLOW: hidden; HEIGHT: 9px
+}
+.QQbox .Qlist .con {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: url(siderIM_bg.gif); PADDING-BOTTOM: 10px; WIDTH: 100%; PADDING-TOP: 10px
+}
+.QQbox .Qlist .con H2 {
+	BORDER-RIGHT: #3a708d 1px solid; BORDER-TOP: #3a708d 1px solid; BACKGROUND: url(siderIM_bg.gif) repeat-y -163px 0px; FONT: bold 12px/22px "宋体"; BORDER-LEFT: #3a708d 1px solid; COLOR: #fff; BORDER-BOTTOM: #3a708d 1px solid; HEIGHT: 22px; TEXT-ALIGN: center
+}
+.QQbox .Qlist .con UL LI {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 15px; PADDING-BOTTOM: 0px; PADDING-TOP: 5px
+}
+.QQbox .Qlist .con UL LI a img{
+	margin-right:8px;}
+	
+/*************/	

@@ -1,0 +1,88 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="nav-close"><i class="fa fa-times-circle"></i>
+    </div>
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                     <span><img alt="image" class="img-circle" src="/static/img/head.jpg" width="64px" height="64px"/></span>
+
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="clear">
+                       <span class="block m-t-xs"><strong class="font-bold">{:session('admin.username')} </strong></span>
+                       
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a href="{:url('admin/login/out')}?id={:session('admin.userid')}">安全退出</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="logo-element">xhadmin
+                </div>
+            </li>
+            
+            {volist name='menus' id='pmenu'}
+                {empty name='pmenu.sub'}				    
+						{if condition ="in_array($pmenu.url,session('admin.nodes')) || session('admin.role') eq 1 "}
+						<li>
+							<a class="J_menuItem" href="{$pmenu.url}" name="tabMenuItem">
+								<i class="{$pmenu.icon}"></i>
+								<span class="nav-label">{$pmenu.title}</span>
+							</a>
+						</li>
+						{/if}					
+                {else}
+				
+				{if condition="session('admin.role') eq '2'"}				
+					{if condition ="in_array($pmenu.url,session('admin.nodes')) || $pmenu.url eq '/admin/Sys'"}
+						<li>
+							<a href="#">
+								<i class="fa {$pmenu.icon}"></i>
+								<span class="nav-label">{$pmenu.title}</span>
+								<span class="fa arrow"></span>
+							</a>
+							<ul class="nav nav-second-level">
+								{volist name='pmenu.sub' id='menu'}
+									{empty name='menu.sub'}									  
+										{if condition ="in_array($menu.url,session('admin.nodes')) || $menu.url eq '/admin/User/setPassword'"}
+										<li>
+											<a class="J_menuItem" href="{$menu.url}" name="tabMenuItem">
+												<i class="{$menu.icon} nav-icon"></i>
+												<span class="nav-label">{$menu.title}</span>
+											</a>
+										</li>								  
+									  {/if}									
+									{/empty}
+								{/volist}
+							</ul>
+						</li>
+					{/if}
+				{else}
+				<li>
+                        <a href="#">
+                            <i class="fa {$pmenu.icon}"></i>
+                            <span class="nav-label">{$pmenu.title}</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            {volist name='pmenu.sub' id='menu'}
+                                {empty name='menu.sub'}								  								    
+								     <li>
+                                        <a class="J_menuItem" href="{$menu.url}" name="tabMenuItem">
+                                        	<i class="{$menu.icon} nav-icon"></i>
+                                        	<span class="nav-label">{$menu.title}</span>
+                                        </a>
+                                     </li>                             
+                                {/empty}
+                            {/volist}
+                        </ul>
+                    </li>
+				{/if}
+				{/empty}
+            {/volist}
+			
+
+        </ul>
+    </div>
+</nav>

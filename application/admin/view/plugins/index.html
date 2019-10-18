@@ -1,0 +1,213 @@
+{extend name='common/_container'} {block name="content"}
+<div class="row">
+	<div class="col-sm-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>插件管理</h5>
+				<button style="float:right; margin-top:-10px;" title="刷新页面" type="button" class="btn btn-default btn-outline" onclick="window.location.reload()" id="">
+					<i class="fa fa-refresh"></i>
+				</button>
+			</div>
+			<div class="ibox-content">
+				<div class="row row-lg">
+					<div class="col-sm-12">
+						<div class="row" id="searchGroup">
+							<!-- search start -->
+							<div class="col-sm-2">
+								<div class="input-group">
+									<div class="input-group-btn">
+										<button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">插件名称</button>
+									</div>
+									<input type="text" class="form-control" id="plugins_name" placeholder="插件名称" />
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="input-group">
+									<div class="input-group-btn">
+										<button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">插件目录</button>
+									</div>
+									<input type="text" class="form-control" id="plugins_dir" placeholder="插件目录" />
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="input-group">
+									<div class="input-group-btn">
+										<button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">作者</button>
+									</div>
+									<input type="text" class="form-control" id="author" placeholder="作者" />
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="input-group">
+									<div class="input-group-btn">
+										<button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">状态</button>
+									</div>
+									<select class="form-control" id="status">
+										<option value="">请选择</option>
+										<option value="10">正常</option>
+										<option value="0">禁用</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="input-group">
+									<div class="input-group-btn">
+										<button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">类型</button>
+									</div>
+									<select class="form-control" id="type">
+										<option value="">请选择</option>
+										<option value="1">模块</option>
+										<option value="2">行为</option>
+										<option value="3">视图</option>
+									</select>
+								</div>
+							</div>
+							<!-- search end -->
+							<div class="col-sm-2">
+									<button type="button" class="btn btn-primary " onclick="CodeGoods.search()" id="">
+										<i class="fa fa-search"></i>&nbsp;搜索
+									</button>
+							</div>
+						</div>
+						<div id="CodeGoodsTableToolbar" role="group">
+							{if condition="in_array('/admin/Plugins/add',session('admin.nodes')) || session('admin.role') eq 1"}
+							<button type="button" id="add" class="btn btn-primary button-margin" onclick="CodeGoods.add()">
+								<i class="fa fa-plus"></i>&nbsp;添加
+							</button>
+							{/if}
+							{if condition="in_array('/admin/Plugins/update',session('admin.nodes')) || session('admin.role') eq 1"}
+							<button type="button" id="update" class="btn btn-primary button-margin" onclick="CodeGoods.update()">
+								<i class="fa fa-edit"></i>&nbsp;修改
+							</button>
+							{/if}
+						</div>
+						<table id="CodeGoodsTable" data-mobile-responsive="true" data-click-to-select="true">
+							<thead><tr><th data-field="selectItem" data-checkbox="true"></th></tr></thead>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	var CodeGoods = {id: "CodeGoodsTable",seItem: null,table: null,layerIndex: -1};
+
+	CodeGoods.initColumn = function () {
+ 		return [
+ 			{field: 'selectItem', checkbox: true},
+ 			{title: '编号', field: 'plugins_id', visible: true, align: 'center', valign: 'middle'},
+ 			{title: '插件名称', field: 'plugins_name', visible: true, align: 'center', valign: 'middle'},
+ 			{title: '插件目录', field: 'plugins_dir', visible: true, align: 'center', valign: 'middle'},
+ 			{title: '插件介绍', field: 'description', visible: true, align: 'left', valign: 'middle'},
+ 			{title: '版本号', field: 'version', visible: true, align: 'center', valign: 'middle'},
+ 			{title: '作者', field: 'author', visible: true, align: 'center', valign: 'middle'},
+ 			{title: '挂载钩子', field: 'hook_name', visible: true, align: 'center', valign: 'middle'},
+ 			{title: '状态', field: 'status', visible: true, align: 'center', valign: 'middle',formatter: 'CodeGoods.statusFormatter'},
+ 			{title: '类型', field: 'type', visible: true, align: 'center', valign: 'middle',formatter: 'CodeGoods.typeFormatter'},
+ 		];
+ 	};
+
+	CodeGoods.statusFormatter = function(value,row,index) {
+		if(value !== null){
+			var value = value.toString();
+			switch(value){
+				case '10':
+					return '<span class="label label-primary">正常</span>';
+				break;
+				case '0':
+					return '<span class="label label-danger">禁用</span>';
+				break;
+			}
+		}
+	}
+
+	CodeGoods.typeFormatter = function(value,row,index) {
+		if(value !== null){
+			var value = value.toString();
+			switch(value){
+				case '1':
+					return '<span class="label label-primary">模块</span>';
+				break;
+				case '2':
+					return '<span class="label label-success">行为</span>';
+				break;
+				case '3':
+					return '<span class="label label-info">视图</span>';
+				break;
+			}
+		}
+	}
+
+	CodeGoods.formParams = function() {
+		var queryData = {};
+		queryData['plugins_name'] = $("#plugins_name").val();
+		queryData['plugins_dir'] = $("#plugins_dir").val();
+		queryData['description'] = $("#description").val();
+		queryData['author'] = $("#author").val();
+		queryData['status'] = $("#status").val();
+		queryData['type'] = $("#type").val();
+		return queryData;
+	}
+
+	CodeGoods.check = function () {
+		var selected = $('#' + this.id).bootstrapTable('getSelections');
+		if(selected.length == 0){
+			Feng.info("请先选中表格中的某一记录！");
+			return false;
+		}else{
+			CodeGoods.seItem = selected;
+			return true;
+		}
+	};
+
+	CodeGoods.add = function (value) {
+		var url = location.search;
+		var index = layer.open({type: 2,title: '创建数据',area: ['800px', '600px'],fix: false, maxmin: true,content: Feng.ctxPath + '/Plugins/add'+url});
+		this.layerIndex = index;
+	}
+
+
+	CodeGoods.update = function (value) {
+		if(value){
+			var index = layer.open({type: 2,title: '编辑数据',area: ['800px', '600px'],fix: false, maxmin: true,content: Feng.ctxPath + '/Plugins/update/plugins_id/'+value});
+		}else{
+			if (this.check()) {
+				var idx = '';
+
+				$.each(CodeGoods.seItem, function() {
+					idx += ',' + this.plugins_id;
+				});
+
+				idx = idx.substr(1);
+				if(idx.indexOf(",") !== -1){
+					Feng.info("请选择单条数据！");
+					return false;
+				}
+				var index = layer.open({type: 2,title: '编辑数据',area: ['800px', '600px'],fix: false, maxmin: true,content: Feng.ctxPath + '/Plugins/update/plugins_id/'+idx});
+				this.layerIndex = index;
+			}
+		}
+	}
+
+
+	CodeGoods.search = function() {
+		CodeGoods.table.refresh({query : CodeGoods.formParams()});
+	};
+
+	CodeGoods.orderby = function() {
+		var queryData = CodeGoods.formParams();
+		queryData['orderby'] = $("#orderby").val();
+		CodeGoods.table.refresh({query : queryData});
+	};
+
+	$(function() {
+		var defaultColunms = CodeGoods.initColumn();
+		var url = location.search;
+		var table = new BSTable(CodeGoods.id, Feng.ctxPath+"/Plugins/index"+url,defaultColunms,20);
+		table.setPaginationType("server");
+		table.setQueryParams(CodeGoods.formParams());
+		CodeGoods.table = table.init();
+	});
+</script>
+{/block}

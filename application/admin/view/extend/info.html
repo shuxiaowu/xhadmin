@@ -1,0 +1,113 @@
+{extend name='common/_container'}
+{block name="content"}
+<div class="ibox float-e-margins">
+<input type="hidden" name='extend_id' id='extend_id' value="{$info.extend_id}" />
+	<div class="ibox-content layui-form">
+		<div class="form-horizontal" id="CodeInfoForm">
+			<div class="row">
+				<div class="col-sm-12">
+				<!-- form start -->
+					<div class="form-group">
+						<label class="col-sm-2 control-label">名称：</label>
+						<div class="col-sm-9">
+							<input type="text" id="title" value="{$info.title}" name="title" class="form-control" placeholder="请输入名称">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">数据库表名：</label>
+						<div class="col-sm-9">
+							<input type="text" id="table_name" value="{$info.table_name}" name="table_name" class="form-control" placeholder="请输入数据库表名">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">类别：</label>
+						<div class="col-sm-9">
+							<?php if(!isset($info['type'])){ $info['type'] = 1; }; ?>
+							<input name="type" value="1" lay-filter="hope"  type="radio" {if condition="$info.type eq '1'"}checked{/if} title="内容拓展模型">
+							<input name="type" value="2" lay-filter="hope"  type="radio" {if condition="$info.type eq '2'"}checked{/if} title="表单模型">
+						</div>
+					</div>
+					<div class="form-group" id="action">
+						<label class="col-sm-2 control-label">操作方法：</label>
+						<div class="col-sm-9">
+							<?php if(!isset($info['action'])){ $info['action'] = 'add,update,delete,view'; }; ?>
+							<input name="action" value="add" type="checkbox" {if in_array('add',explode(',',$info['action']))}checked{/if} title="添加">
+							<input name="action" value="update" type="checkbox" {if in_array('update',explode(',',$info['action']))} checked{/if} title="修改">
+							<input name="action" value="delete" type="checkbox" {if in_array('delete',explode(',',$info['action']))} checked{/if} title="删除">
+							<input name="action" value="view" type="checkbox" {if in_array('view',explode(',',$info['action']))} checked{/if} title="查看数据">
+							<input name="action" value="dumpData" type="checkbox" {if in_array('dumpData',explode(',',$info['action']))} checked{/if} title="数据导出">
+							<input name="action" value="importData" type="checkbox" {if in_array('importData',explode(',',$info['action']))} checked{/if} title="数据导入">
+						</div>
+					</div>
+					<div class="form-group" id="sorttype">
+						<label class="col-sm-2 control-label">默认排序：</label>
+						<div class="col-sm-9">
+							<input type="text" id="orderby" value="{$info.orderby}" name="orderby" class="form-control" placeholder="默认排序为主键倒序 data_id desc">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">状态：</label>
+						<div class="col-sm-9">
+							<?php if(!isset($info['status'])){ $info['status'] = 10; }; ?>
+							<input name="status" value="10"   type="radio" {if condition="$info.status eq '10'"}checked{/if} title="正常">
+							<input name="status" value="0"  type="radio" {if condition="$info.status eq '0'"}checked{/if} title="禁用">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">权重：</label>
+						<div class="col-sm-9">
+							<?php if(!isset($info['sortid'])){ $info['sortid'] = 100; }; ?>
+							<input type="text" id="sortid" value="{$info.sortid}" name="sortid" class="form-control" placeholder="请输入排序号">
+						</div>
+					</div>
+				<!-- form end -->
+				</div>
+			</div>
+			<div class="hr-line-dashed"></div>
+			<div class="row btn-group-m-t">
+				<div class="col-sm-9 col-sm-offset-1">
+					<button type="button" class="btn btn-primary" onclick="{if condition="$info.extend_id neq ''"}CodeInfoDlg.update(){else/}CodeInfoDlg.add(){/if}" id="ensure">
+						<i class="fa fa-check"></i>&nbsp;确认提交
+					</button>
+					<button type="button" class="btn btn-danger" onclick="CodeInfoDlg.close()" id="cancel">
+						<i class="fa fa-eraser"></i>&nbsp;取消
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="__PUBLIC__/static/js/admin/Extend.js?t=<?php echo rand(1000,9999)?>" charset="utf-8"></script>
+<script src="__PUBLIC__/static/js/upload.js" charset="utf-8"></script>
+<script src="__PUBLIC__/static/js/plugins/layui/layui.js?t=1498856285724" charset="utf-8"></script>
+<script>
+layui.config({dir: '/static/js/plugins/layui/'});
+	layui.use(['layer', 'form'], function () {
+	window.layer = layui.layer;
+	form = layui.form();
+	
+	
+	form.on('radio(hope)',function(data){
+		if(data.value == 2){
+			$("#action").show();
+			$("#sorttype").show();
+		}else{
+			$("#action").hide();
+			$("#sorttype").show();
+		}
+	
+	});	
+});
+
+$(function(){
+	var type = $("input[name='type']:checked").val();
+	if(type == 1){
+		$("#action").hide();//默认第一个选中
+		$("#sorttype").hide();//默认第一个选中
+	}
+})
+
+</script>
+
+
+{/block}

@@ -1,0 +1,240 @@
+/*Focus*/
+#Focus {width:980px; height:300px; overflow:hidden; position:relative;}
+#Focus ul {height:380px; position:absolute;}
+#Focus ul li {float:left; width:980px; height:300px; overflow:hidden; position:relative; background:#000;}
+#Focus ul li div {position:absolute; overflow:hidden;}
+#Focus .btnBg {position:absolute; width:980px; height:20px; left:0; bottom:0; background:#000;}
+#Focus .btn {position:absolute; width:960px; height:10px; padding:5px 10px; right:0; bottom:0; text-align:right;}
+#Focus .btn span {display:inline-block; _display:inline; _zoom:1; width:25px; height:10px; _font-size:0; margin-left:5px; cursor:pointer; background:#fff;}
+#Focus .btn span.on {background:#fff;}
+#Focus .preNext {width:45px; height:100px; position:absolute; top:90px;  cursor:pointer;}
+#Focus .pre {left:0;}
+#Focus .next {right:0; background-position:right top;}
+
+/* main block*/
+#body .MainBlock{
+	font-size:12px;
+	}
+#body .MainBlock .left{
+	float:left;
+	width:420px;
+	border-top:1px solid #dddddd;
+	border-right:1px solid #dddddd;
+	border-bottom:1px solid #dddddd;
+	border-left:1px solid #dddddd;
+	height:285px;
+	overflow:hidden;
+	}
+#body .topic{
+	height:35px;
+	background:url("/images/Hituxblue/box_bg1.jpg") repeat left top;
+	line-height:35px;
+	border-bottom:1px solid #dddddd;
+}
+#body   .topic .TopicTitle{
+	background:url("/images/Hituxblue/nav_bg1.jpg") no-repeat -23px 0px;
+	float:left;
+	font-weight:bold;
+	padding-left:20px;
+	font-size:12px;
+	color:#a80207;
+	height:35px;}
+#body   .topic .TopicMore{
+	float:right;
+	font-size:12px;
+	padding-right:10px;
+	padding-top:13px;}
+#body   .topic .TopicMore img{
+	}				
+	
+#body  .left  #MBlockTable td{
+	line-height:26px;
+	padding-left:10px;
+	font-size:12px;
+}
+#body .MainBlock .left  #MBlockTable span{
+	color:#a80207;
+	padding-left:10px;
+	font-size:11px;}
+#body .MainBlock .right{
+	width:251px;
+	float:left;
+	height:285px;
+	border-left:1px solid #dddddd;
+	border-top:1px solid #dddddd;
+	border-right:1px solid #dddddd;
+	border-bottom:1px solid #dddddd;
+	overflow:hidden;
+	}
+#body .MainBlock .right .img{
+	padding:14px;
+	 }
+
+#body .MainBlock .right .txt{
+	padding:0px 14px 14px 14px;}
+
+#body .MainBlock .right2{
+	width:281px;
+	float:right;
+	height:285px;
+	border-left:1px solid #dddddd;
+	border-top:1px solid #dddddd;
+	border-right:1px solid #dddddd;
+	border-bottom:1px solid #dddddd;
+	overflow:hidden;
+	}
+#body .MainBlock .right2 .img{
+	padding:14px;
+	 }
+
+#body .MainBlock .right2 .txt{
+	padding:0px 14px 14px 14px;}
+
+
+#body .ProductShow {
+	BORDER: #dddddd 1px solid;
+	WIDTH: 978px; 
+	font-size:12px;
+}
+.hjc {
+	
+}
+.hjnav {
+	BACKGROUND-COLOR: #fff; HEIGHT: 428px;
+	overflow:hidden;
+}
+.hjnavleft {
+	WIDTH: 148px; FLOAT: left; HEIGHT: 429px;
+	overflow:hidden;
+}
+.hjnavleft UL {
+}
+.hjnavleft UL LI {
+	LINE-HEIGHT: 42px; 
+	PADDING-LEFT: 36px; 
+	HEIGHT: 42px;
+	width:112px;
+	background:url(/images/Hituxblue/box_bg3.jpg) no-repeat -10px top;	
+	border-bottom:1px solid #dddddd;
+}
+
+.hjnavleft UL LI a:hover{
+	text-decoration:none;}
+.hjnavleft UL LI.hover0 {
+	BACKGROUND:#a80207;
+}
+.hjnavleft UL LI.hover0  a{
+	color:#FFFFFF;
+	font-weight:bold;}
+.hjnavleft UL LI.hover1 {
+	BACKGROUND:#a80207;
+}
+.hjnavleft UL LI.hover1  a{
+	color:#FFFFFF;	
+	font-weight:bold;}
+.hjnavleft UL LI.hover2 {
+	BACKGROUND:#a80207;
+}
+.hjnavleft UL LI.hover2  a{
+	color:#FFFFFF;	
+	font-weight:bold;}
+.hjnavleft UL LI.hover3 {
+	BACKGROUND:#a80207;
+}
+.hjnavleft UL LI.hover3  a{
+	color:#FFFFFF;	
+	font-weight:bold;}
+.hjnavleft UL LI.hover4 {
+	BACKGROUND:#a80207;
+}
+.hjnavleft UL LI.hover4  a{
+	color:#FFFFFF;	
+	font-weight:bold;}
+.hjnavleft UL LI.hover5 {
+	BACKGROUND:#a80207;
+}
+.hjnavleft UL LI.hover5  a{
+	color:#FFFFFF;	
+	font-weight:bold;}
+.hjnavleft UL LI.hover6 {
+	BACKGROUND:#a80207;
+}
+.hjnavleft UL LI.hover6  a{
+	color:#FFFFFF;	
+	font-weight:bold;}
+.hjnavleft UL LI.hover7 {
+	BACKGROUND:#a80207;
+}
+.hjnavleft UL LI.hover7  a{
+	color:#FFFFFF;	
+	font-weight:bold;}
+.hjnavleft UL LI.hover8 {
+	BACKGROUND:#a80207;
+}
+.hjnavleft UL LI.hover8  a{
+	color:#FFFFFF;	
+	font-weight:bold;}
+.hjnavleft UL LI.hover9 {
+	BACKGROUND:#a80207;
+}
+.hjnavleft UL LI.hover9  a{
+	color:#FFFFFF;	
+	font-weight:bold;}
+.hjnavleft UL LI.hover10 {
+	BACKGROUND:#a80207;
+}
+.hjnavleft UL LI.hover10 a{
+	color:#FFFFFF;	
+	font-weight:bold;}
+.hjnavleft UL LI.hover11{
+	BACKGROUND:#a80207;
+}
+.hjnavleft UL LI.hover11 a{
+	color:#FFFFFF;	
+	font-weight:bold;}
+
+.hjnavcn {
+	WIDTH: 820px; FLOAT: left; HEIGHT: 430px; OVERFLOW: hidden;
+	border-left:1px solid #dddddd;
+}
+.f {
+	PADDING-BOTTOM: 10px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 10px
+}
+.dcn {
+	PADDING-BOTTOM: 10px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 10px
+}
+.shengming {
+	PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 10px
+}
+.cfr H5 IMG {
+	DISPLAY: block
+}
+.cfr UL LI.tenlion IMG {
+	DISPLAY: block
+}
+.jdcenter IMG {
+	DISPLAY: block
+}
+.cfr UL LI IMG {
+	DISPLAY: none
+}
+.cfr UL LI.tenlion P {
+	DISPLAY: none
+}
+.hjone {
+	PADDING-BOTTOM: 10px; LINE-HEIGHT: 22px; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; HEIGHT: 158px; PADDING-TOP: 10px
+}
+.hjone P {
+	PADDING-BOTTOM: 5px; TEXT-INDENT: 2em
+}
+
+
+#body #Links {
+	padding:10px 8px;
+	line-height:25px;
+	font-size:12px;}
+#body #Links span{
+	font-weight:bold;}
+
+#body #Links a{
+	padding:0px 7px;}	

@@ -1,0 +1,133 @@
+{extend name='common/_container'}
+{block name="content"}
+<div class="ibox float-e-margins">
+<input type="hidden" name='id' id='id' value="{$info.id}" />
+	<div class="ibox-content layui-form">
+		<div class="form-horizontal" id="CodeInfoForm">
+			<div class="row">
+				<div class="col-sm-12">
+				<!-- form start -->
+					<div class="form-group">
+						<label class="col-sm-2 control-label">配置名称：</label>
+						<div class="col-sm-9">
+							<input type="text" id="title" value="{$info.title}" name="title" class="form-control" placeholder="请输入配置名称">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">覆盖同名文件：</label>
+						<div class="col-sm-9">
+							<?php if(!isset($info['upload_replace'])){ $info['upload_replace'] = 0; }; ?>
+							<input name="upload_replace" value="1" type="radio" {if condition="$info.upload_replace eq '1'"}checked{/if} title="开启">
+							<input name="upload_replace" value="0" type="radio" {if condition="$info.upload_replace eq '0'"}checked{/if} title="关闭">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">缩略图开关：</label>
+						<div class="col-sm-9">
+							<?php if(!isset($info['thumb_status'])){ $info['thumb_status'] = 0; }; ?>
+							<input name="thumb_status" value="1" type="radio" {if condition="$info.thumb_status eq '1'"}checked{/if} title="开启">
+							<input name="thumb_status" value="0" type="radio" {if condition="$info.thumb_status eq '0'"}checked{/if} title="关闭">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">水印开关：</label>
+						<div class="col-sm-9">
+							<?php if(!isset($info['water_status'])){ $info['water_status'] = 0; }; ?>
+							<input name="water_status" value="1" type="radio" {if condition="$info.water_status eq '1'"}checked{/if} title="开启">
+							<input name="water_status" value="0" type="radio" {if condition="$info.water_status eq '0'"}checked{/if} title="关闭">
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 control-label">缩图方式：</label>
+						<div class="col-sm-9">
+							<?php if(!isset($info['thumb_type'])){ $info['thumb_status'] = 1; }; ?>
+							<select lay-ignore name="thumb_type" class="form-control" id="thumb_type">
+								<option value="">请选择</option>
+								<option value="1" {if condition="$info.thumb_type eq 1"}selected{/if}>等比例缩放</option>
+								<option value="2" {if condition="$info.thumb_type eq 2"}selected{/if}>缩放后填充</option>
+								<option value="3" {if condition="$info.thumb_type eq 3"}selected{/if}>居中裁剪</option>
+								<option value="4" {if condition="$info.thumb_type eq 4"}selected{/if}>左上角裁剪</option>
+								<option value="5" {if condition="$info.thumb_type eq 5"}selected{/if}>右下角裁剪</option>
+								<option value="6" {if condition="$info.thumb_type eq 6"}selected{/if}>固定尺寸缩放</option>
+
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">缩放宽度：</label>
+						<div class="col-sm-9">
+							<input type="text" id="thumb_width" value="{$info.thumb_width}" name="thumb_width" class="form-control" placeholder="缩放宽度">
+							<span class="help-block m-b-none">单位px</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">缩放高度：</label>
+						<div class="col-sm-9">
+							<input type="text" id="thumb_height" value="{$info.thumb_height}" name="thumb_height" class="form-control" placeholder="缩放高度">
+							<span class="help-block m-b-none">单位px</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">水印位置：</label>
+						<div class="col-sm-9">
+							<?php if(!isset($info['water_position'])){ $info['thumb_status'] = 9; }; ?>
+							<select lay-ignore name="water_position" class="form-control" id="water_position">
+								<option value="">请选择</option>
+								<option value="1" {if condition="$info.water_position eq 1"}selected{/if}>左上角水印</option>
+								<option value="2" {if condition="$info.water_position eq 2"}selected{/if}>上居中水印</option>
+								<option value="3" {if condition="$info.water_position eq 3"}selected{/if}>右上角水印</option>
+								<option value="4" {if condition="$info.water_position eq 4"}selected{/if}>左居中水印</option>
+								<option value="5" {if condition="$info.water_position eq 5"}selected{/if}>居中水印</option>
+								<option value="6" {if condition="$info.water_position eq 6"}selected{/if}>右居中水印</option>
+								<option value="7" {if condition="$info.water_position eq 7"}selected{/if}>左下角水印</option>
+								<option value="8" {if condition="$info.water_position eq 8"}selected{/if}>下居中水印</option>
+								<option value="9" {if condition="$info.water_position eq 9"}selected{/if}>右下角水印</option>
+
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">状态：</label>
+						<div class="col-sm-9">
+							<?php if(!isset($info['status'])){ $info['status'] = 1; }; ?>
+							<input name="status" value="1" type="radio" {if condition="$info.status eq '1'"}checked{/if} title="开启">
+							<input name="status" value="0" type="radio" {if condition="$info.status eq '0'"}checked{/if} title="关闭">
+						</div>
+					</div>
+					
+				<!-- form end -->
+				</div>
+			</div>
+			<div class="hr-line-dashed"></div>
+			<div class="row btn-group-m-t">
+				<div class="col-sm-9 col-sm-offset-1">
+					<button type="button" class="btn btn-primary" onclick="{if condition="$info.id neq ''"}CodeInfoDlg.update(){else/}CodeInfoDlg.add(){/if}" id="ensure">
+						<i class="fa fa-check"></i>&nbsp;确认提交
+					</button>
+					<button type="button" class="btn btn-danger" onclick="CodeInfoDlg.close()" id="cancel">
+						<i class="fa fa-eraser"></i>&nbsp;取消
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="__PUBLIC__/static/js/admin/UploadConfig.js?t=<?php echo rand(1000,9999)?>" charset="utf-8"></script>
+<script src="__PUBLIC__/static/js/upload.js" charset="utf-8"></script>
+<script src="__PUBLIC__/static/js/plugins/layui/layui.js?t=1498856285724" charset="utf-8"></script>
+<script>
+layui.config({dir: '__PUBLIC__/static/js/plugins/layui/'});
+	layui.use(['layer', 'form'], function () {
+	window.layer = layui.layer;
+	window.form = layui.form();
+});
+layui.use('element', function(){
+	var element = layui.element();
+	element.on('tab(test)', function(elem){
+	});
+});
+</script>
+
+
+{/block}

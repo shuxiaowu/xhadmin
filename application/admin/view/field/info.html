@@ -1,0 +1,175 @@
+{extend name='common/_container'}
+{block name="content"}
+<div class="ibox float-e-margins">
+<input type="hidden" name="id" id="id" value="{$info.id}">
+<input type="hidden" name="extend_id" id="extend_id" value="{$info.extend_id}">
+	<div class="ibox-content layui-form">
+		<div class="form-horizontal" id="CodeInfoForm">
+			<div class="row">
+				<div class="col-sm-10">
+				<!-- form start -->
+					<div class="form-group">
+						<label class="col-sm-2 control-label">字段名：</label>
+						<div class="col-sm-9">
+							<input type="text" value="{$info.name}" id="name" name="name" class="form-control" placeholder="请输入字段名称">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">字段：</label>
+						<div class="col-sm-9">
+							<input type="text" value="{$info.field}" id="field" name="field" class="form-control" placeholder="请输入字段">
+							<span class="help-block m-b-none">如果是地区三级联动请用|隔开 也支持一级  二级 如province|city|district</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">字段类型：</label>
+						<div class="col-sm-9">
+							<select lay-ignore name="type" class="form-control" id="type">
+								<option value="">请选择</option>
+								{volist name="fieldList" id="vo"}
+									<option value="{$key}" {if condition="$info.type eq $key"}selected{/if}>{$vo.name}</option>
+								{/volist}
+							</select>
+							<span class="help-block m-b-none">注意下拉框、单选框、多选框数据类型是int，如需更改亲到数据库改</span>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 control-label">是否列表显示：</label>
+						<div class="col-sm-9">
+						<?php if(!isset($info['list_show'])){ $info['list_show'] = 1; }; ?>
+							<input name="list_show" value="1" type="radio" {if condition="$info.list_show eq 1"}checked{/if} title="是">
+							<input name="list_show" value="0" type="radio" {if condition="$info.list_show eq 0"}checked{/if} title="否">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">是否搜索：</label>
+						<div class="col-sm-9">
+						<?php if(!isset($info['is_search'])){ $info['is_search'] = 1; }; ?>
+							<input name="is_search" value="1" type="radio" {if condition="$info.is_search eq 1"}checked{/if} title="是">
+							<input name="is_search" value="0" type="radio" {if condition="$info.is_search eq 0"}checked{/if} title="否">
+						</div>
+					</div>
+					
+
+					
+					<div class="form-group">
+						<label class="col-sm-2 control-label">状态：</label>
+						<div class="col-sm-9">
+						<?php if(!isset($info['status'])){ $info['status'] = 1; }; ?>
+							<input name="status" value="1" type="radio" {if condition="$info.status eq 1"}checked{/if} title="正常">
+							<input name="status" value="0" type="radio" {if condition="$info.status eq 0"}checked{/if} title="禁用">
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 control-label">字段显示位置：</label>
+						<div class="col-sm-9">
+							<select lay-ignore name="align" class="form-control" id="align">
+								<option value="">请选择</option>
+								<option value="left" {if condition="$info.align eq 'left'"}selected{/if}>居左</option>
+								<option value="center" {if condition="$info.align eq 'center'"}selected{/if}>居中</option>
+								<option value="right" {if condition="$info.align eq 'right'"}selected{/if}>居右</option>
+							</select>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 control-label">字段配置：</label>
+						<div class="col-sm-9">
+							<textarea id="config"  name="config"  class="form-control" placeholder="请输入字段配置">{$info.config}</textarea>
+							<span class="help-block m-b-none">名称|值|标签背景色，
+							<span class="label label-primary">primary</span>
+							<span class="label label-success">success</span>
+							<span class="label label-info">info</span>
+							<span class="label label-warning">warning</span>
+							<span class="label label-danger">danger</span></span>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 control-label">字段默认值：</label>
+						<div class="col-sm-9">
+							<textarea id="default_value" name="block_name" class="form-control" placeholder="表单默认输入值">{$info.default_value}</textarea>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 control-label">字段说明：</label>
+						<div class="col-sm-9">
+							<textarea id="note" name="block_name" class="form-control" placeholder="请输入字段说明">{$info.note}</textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">验证方式：</label>
+						<div class="col-sm-9">
+							<select lay-ignore name="validate" class="form-control" id="validate">
+								<option value="">请选择</option>
+								<option value="notEmpty" {if condition="$info.validate eq 'notEmpty'"}selected{/if}>不为空</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">验证规则：</label>
+						<div class="col-sm-6">
+							<input type="text" id="rule" name="rule" value="{$info.rule}" class="form-control" placeholder="字段验证">
+						</div>
+						<div class="col-sm-2" style="margin-left:-30px;">
+							<select lay-ignore name="ruleType" class="form-control" id="ruleType">
+								<option value="">验证规则</option>
+								<option value="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/">邮箱</option>
+								<option value="/^((ht|f)tps?):\/\/([\w\-]+(\.[\w\-]+)*\/)*[\w\-]+(\.[\w\-]+)*\/?(\?([\w\-\.,@?^=%&:\/~\+#]*)+)?/">网址</option>
+								<option value="/^([1-9][0-9]*)+(.[0-9]{1,2})?$/">货币</option>
+								<option value="/^[0-9]*$/">数字</option>
+								<option value="/^1[34578]\d{9}$/">手机号</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">错误提示：</label>
+						<div class="col-sm-9">
+							<input type="text" id="message" name="message" value="{$info.message}" class="form-control" placeholder="请输入错误提示">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">排序：</label>
+						<div class="col-sm-9">
+							<input type="text" id="sortid" value="{$info.sortid}" name="sortid" class="form-control" placeholder="请输入排序号">
+						</div>
+					</div>
+				<!-- form end -->
+				</div>
+			</div>
+			<div class="row btn-group-m-t">
+				<div class="col-sm-10">
+					<button type="button" class="btn btn-primary" onclick="{if condition="$info.id neq ''"}CodeInfoDlg.update(){else/}CodeInfoDlg.add(){/if}" id="ensure">
+						<i class="fa fa-check"></i>&nbsp;确认提交
+					</button>
+					<button type="button" class="btn btn-danger" onclick="CodeInfoDlg.close()" id="cancel">
+						<i class="fa fa-eraser"></i>&nbsp;取消
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="__PUBLIC__/static/js/admin/Field.js?t=<?php echo rand(1000,9999)?>" charset="utf-8"></script>
+<script src="__PUBLIC__/static/js/plugins/layui/layui.js?t=1498856285724" charset="utf-8"></script>
+<script>
+layui.config({dir: '__PUBLIC__/static/js/plugins/layui/'});
+	layui.use(['layer', 'form'], function () {
+	window.layer = layui.layer;
+	window.form = layui.form();
+});
+
+$(function(){
+	$("#ruleType").change(function(){
+		val = $("#ruleType option:selected").val();
+		$("#rule").val(val);
+	});
+})
+
+</script>
+
+
+{/block}

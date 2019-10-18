@@ -1,0 +1,105 @@
+{extend name='common/_container'} {block name="content"}
+<div class="row">
+	<div class="col-sm-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-content">
+				<div class="row row-lg">
+           <form  action="">
+			<input type="hidden" name="id" id="id" value="{$id}">
+					<div class="col-sm-12">					
+						<div > 
+						{volist name="list" id="vo"}
+						<table class="table table-bordered" style="margin-bottom:2px;"> 
+							<tbody>
+								<tr> 
+									<td style="background-color:#F5F5F6; font-weight:bold; text-align:left" width="180px"><input type="checkbox" name="authorize" {if in_array($vo['val'],$myAccess)}checked{/if} level="1" value="{$vo.val}">{$vo.title}</td>
+									<td>
+									{if condition="$vo['subdata'][0]['subdata'] eq ''"}
+										{volist name="vo[subdata]" id="item"}
+											<input type="checkbox" name="authorize" {if in_array($item['val'],$myAccess)}checked{/if} value="{$item.val}"> {$item.title}
+										{/volist}
+									{/if}
+									</td>									
+								</tr>
+								{if condition="$vo['subdata'][0]['subdata'] neq ''"}
+									{volist name="vo[subdata]" id="item"}
+									<tr> 
+										<td style="background-color:#F5F5F6; font-weight:bold; text-align:left" width="180px">
+										&nbsp;&nbsp;&nbsp;&nbsp;<input name="authorize" type="checkbox" {if in_array($item['val'],$myAccess)}checked{/if} value="{$item.val}" level="2">├─{$item.title}</td>
+										<td>
+										{volist name="item['subdata']" id="v"}
+										<input type="checkbox" name="authorize" {if in_array($v['val'],$myAccess)}checked{/if} value="{$v.val}"> {$v.title}&nbsp;
+										{/volist}
+										</td>								
+									</tr>
+									{/volist}
+								{/if}
+								
+							</tbody> 
+						</table>
+						{/volist}
+						
+						
+						<table class="table table-bordered" style="margin-bottom:2px;"> 
+							<tbody>
+								<tr> 
+									<td style="background-color:#F5F5F6; font-weight:bold; text-align:left" width="180px"><input type="checkbox" name="authorize" value="/admin/FormData"  {if in_array('/admin/FormData',$myAccess)}checked{/if}  level="1">在线表单</td>
+									<td></td>									
+								</tr>
+								{query table="extend" sqlstr="type=2"}
+								<tr> 
+									<td style="background-color:#F5F5F6; font-weight:bold; text-align:left" width="180px">
+									&nbsp;&nbsp;&nbsp;&nbsp;<input name="authorize" value="/admin/FormData/index/extend_id/{$query.extend_id}.html" {if in_array("/admin/FormData/index/extend_id/".$query['extend_id'].'.html',$myAccess)}checked{/if} type="checkbox" level="2">{$query.title}</td>
+									<td>
+										<input type="checkbox" name="authorize"  {if in_array("/admin/FormData/add/extend_id/".$query["extend_id"].'.html',$myAccess)}checked{/if} value="/admin/FormData/add/extend_id/{$query.extend_id}.html">添加&nbsp;
+										
+										<input type="checkbox" name="authorize"  {if in_array('/admin/FormData/update/extend_id/'.$query["extend_id"].'.html',$myAccess)}checked{/if} value="/admin/FormData/update/extend_id/{$query.extend_id}.html">修改&nbsp;
+										
+										<input type="checkbox" name="authorize"  {if in_array('/admin/FormData/delete/extend_id/'.$query["extend_id"].'.html',$myAccess)}checked{/if} value="/admin/FormData/delete/extend_id/{$query.extend_id}.html">删除&nbsp;
+										
+										<input type="checkbox" name="authorize"  {if in_array('/admin/FormData/view/extend_id/'.$query["extend_id"].'.html',$myAccess)}checked{/if} value="/admin/FormData/view/extend_id/{$query.extend_id}.html">查看数据&nbsp;
+										
+										<input type="checkbox" name="authorize"  {if in_array('/admin/FormData/importData/extend_id/'.$query["extend_id"].'.html',$myAccess)}checked{/if} value="/admin/FormData/importData/extend_id/{$query.extend_id}.html">数据导入&nbsp;
+										
+										<input type="checkbox" name="authorize"  {if in_array('/admin/FormData/dumpData/extend_id/'.$query["extend_id"].'.html',$myAccess)}checked{/if} value="/admin/FormData/dumpData/extend_id/{$query.extend_id}.html">数据导出&nbsp;
+									
+									</td>								
+								</tr>
+								{/query}
+							</tbody> 
+						</table>
+						
+						</div>
+						<div class="row btn-group-m-t">
+							<div class="col-sm-10">
+								<button type="button" class="btn btn-info " onclick="GroupInfoDlg.addAuth()" id="ensure">
+									<i class="fa fa-check"></i>&nbsp;提交
+								</button>
+								<button type="button" class="btn btn-danger " onclick="GroupInfoDlg.close()" id="cancel">
+									<i class="fa fa-eraser"></i>&nbsp;取消
+								</button>
+							</div>
+						</div>
+						
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="__PUBLIC__/static/js/admin/group_info.js"></script>
+<script type="text/javascript">
+    $('input[level=1]').click(function(){
+	      var inputs = $(this).parent().parent().parent().parent().find('input');
+		  inputs.prop("checked", $(this).prop("checked"));  
+	});
+	
+	$('input[level=2]').click(function(){
+	      var inputs = $(this).parent().parent().find('input');
+		  inputs.prop("checked", $(this).prop("checked"));  
+	});
+</script>
+{/block}
+
+

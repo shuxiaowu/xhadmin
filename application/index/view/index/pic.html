@@ -1,0 +1,92 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=7">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$media.title}</title>
+<meta name="keywords" content="{$media.keywords}">
+<meta name="description" content="{$media.description}">
+<link href="__PUBLIC__/static/cms/css/HituxBlue/inner.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__/static/cms/css/HituxBlue/common.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__/static/cms/qqkefu/HituxBlue/qq_right.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__PUBLIC__/static/cms/js/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/cms/js/functions.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/cms/images/iepng/iepngfix_tilebg.js"></script>
+</head>
+
+
+<body>
+<div id="wrapper">
+
+<!--head start-->
+{include file="index@index/header"}
+<!--head end-->
+<!--body start-->
+<div id="body">
+<!--focus start-->
+<div id="InnerBanner">
+
+</div>
+<!--foncus end-->
+<div class="HeightTab clearfix"></div>
+<!--inner start -->
+<div class="inner">
+<!--left start-->
+<div class="left">
+{include file="index@index/left"}
+</div>
+<!--left end-->
+<!--right start-->
+<div class="right">
+<div class="Position"><span>{$position}</span></div>
+<div class="HeightTab clearfix"></div>
+<!--main start-->
+<div class="main">
+
+<!--content start-->
+<div class="content">
+<div class="MorePro">
+<div class="CaseBlock">
+
+<ul>
+{list num='12' sqlstr=""}
+<div class='albumblock'>
+<div class='inner'><a href='{$list.url}'><img src='{$list.pic}' /><div class='albumtitle'>{$list.title}</div></a></div></div>
+{/list}
+</ul>
+</div>
+<div class="clearfix"></div>
+<div class='t_page ColorLink'>{$showpage}</div>
+</div>
+
+</div>
+<!--content end-->
+
+</div>
+<!--main end-->
+</div>
+<!--right end-->
+</div>
+<!--inner end-->
+</div>
+<!--body end-->
+<div class="HeightTab clearfix"></div>
+<!--footer start-->
+{include file="index@index/foot"}
+<!--footer end -->
+
+
+</div>
+<script type="text/javascript">
+window.onerror=function(){return true;}
+</script>
+</body>
+</html>
+<!--
+Powered By HuiguerCMS ASP V3.6   
+-->
+
+
+
+
